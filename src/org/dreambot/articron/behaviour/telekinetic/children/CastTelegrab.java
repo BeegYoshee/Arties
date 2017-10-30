@@ -22,8 +22,9 @@ public class CastTelegrab extends Node{
     @Override
     public int execute(ScriptContext context) {
         if (context.getMTA().getTelekineticHandler().castTelegrab()) {
+            context.getMTA().getTelekineticHandler().getSolver().saveStatueLocation();
             MethodProvider.sleepUntil(() -> context.getDB().getNpcs().closest(6777) == null, 5000);
         }
-        return 600;
+        return 100;
     }
 }

@@ -26,7 +26,7 @@ public class AlchItem extends Node{
         int count = context.getDB().getInventory().count(itemName);
         if (context.getDB().getMagic().castSpell(context.getMTA().getAlchemyHandler().getAlchemySpell())) {
             if (context.getDB().getInventory().getRandom(itemName).interact()) {
-                MethodProvider.sleepUntil(() -> count != context.getDB().getInventory().count(itemName),2000);
+                MethodProvider.sleepUntil(() -> count != context.getDB().getInventory().count(itemName),2500);
             }
         }
         return 0;

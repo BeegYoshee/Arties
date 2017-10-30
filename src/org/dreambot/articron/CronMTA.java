@@ -5,14 +5,17 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import org.dreambot.api.methods.Calculations;
+import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
 import org.dreambot.api.script.AbstractScript;
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.script.listener.MessageListener;
+import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.api.wrappers.widgets.message.Message;
 import org.dreambot.articron.behaviour.DialogueHandler;
 import org.dreambot.articron.behaviour.LeaveRoom;
 import org.dreambot.articron.behaviour.PortalEnter;
+import org.dreambot.articron.behaviour.SwitchStave;
 import org.dreambot.articron.behaviour.alchemy.AlchemyGroup;
 import org.dreambot.articron.behaviour.alchemy.children.AlchItem;
 import org.dreambot.articron.behaviour.alchemy.children.DepositGold;
@@ -42,6 +45,7 @@ import org.dreambot.articron.behaviour.telekinetic.children.ObserveMaze;
 import org.dreambot.articron.behaviour.telekinetic.children.RunToCastTile;
 import org.dreambot.articron.data.AlchemyDrop;
 import org.dreambot.articron.data.MTARoom;
+import org.dreambot.articron.data.MTAStave;
 import org.dreambot.articron.data.Reward;
 import org.dreambot.articron.fw.Manager;
 import org.dreambot.articron.fw.ScriptContext;
@@ -54,7 +58,7 @@ import org.dreambot.articron.fw.ScriptContext;
         category = Category.MINIGAME,
         name = "ArtiMTA PRO",
         author = "Articron",
-        version = 1.17D,
+        version = 1.20D,
         description = "Does the MTA minigame to obtain infinity items. 250-400K/hr, profitable magic xp! " +
         "See the script thread for user instructions!"
 )
@@ -66,12 +70,9 @@ public class CronMTA extends AbstractScript implements MessageListener{
     public void onStart() {
         context = new ScriptContext(this, getManifest());
         getWalking().setRunThreshold(Calculations.random(30,50));
+        context.getMTA().getTelekineticHandler().setStave(MTAStave.AIR_STAFF);
         Manager.init(context);
-        context.getMTA().getRewardQueue().add(Reward.INFINITY_BOOTS);
-        context.getMTA().getRewardQueue().add(Reward.MASTER_WAND);
-        context.getMTA().getRewardQueue().add(Reward.INFINITY_HAT);
-        context.getMTA().getRewardQueue().add(Reward.INFINITY_HAT);
-        context.getMTA().getRewardQueue().add(Reward.INFINITY_HAT);
+        context.getMTA().getRewardQueue().add(Reward.MAGE_BOOK);
         context.getPaint().loadRewards();
         Manager.commit(
 
@@ -80,6 +81,16 @@ public class CronMTA extends AbstractScript implements MessageListener{
                  */
                 new DialogueHandler().when(
                         () -> context.getDB().getDialogues().inDialogue()
+                ),
+
+                new SwitchStave().when(
+                        () -> {
+                         if (context.getMTA().isOutside()) return false;
+                         MTAStave stave = context.getMTA().getRoom(context.getMTA().getCurrentRoom()).getStave();
+                         if (stave == null) return false;
+                         Item currentWeapon = getEquipment().getItemInSlot(EquipmentSlot.WEAPON.getSlot());
+                         return (currentWeapon == null) || !currentWeapon.getName().equals(stave.getName());
+                        }
                 ),
 
                 /*
@@ -132,27 +143,15 @@ public class CronMTA extends AbstractScript implements MessageListener{
                                    !context.getMTA().getTelekineticHandler().solvedMaze())
                                .addToGroup(
 
+                                       new CastTelegrab().when(
+                                               () -> context.getMTA().getTelekineticHandler().getSolver().isInCorrectRow()
+                                       ),
+
                        new RunToCastTile().when(
-                               () -> {
-                                   try {
-                                       return context.getMTA().getTelekineticHandler().getSolver().getCastLocation() != null &&
-                                               (context.getMTA().getTelekineticHandler().getSolver().getCastLocation().distance() > 1 ||
-                                                       !context.getMTA().getTelekineticHandler().getSolver().isInCorrectRow())
-                                               ;
-                                   } catch (NullPointerException e) {
-                                       return false;
-                                   }
-                               }
-                       ),
-                       new CastTelegrab().when(
-                               () -> {
-                                   try {
-                                       return context.getMTA().getTelekineticHandler().getSolver().isInCorrectRow();
-                                   } catch (NullPointerException e) {
-                                       return false;
-                                   }
-                               }
+                               () -> !context.getMTA().getTelekineticHandler().getSolver().isInCorrectRow() &&
+                                       context.getMTA().getTelekineticHandler().getSolver().getCastTile() != null
                        )
+
                 ),
 
                 new SolutionGroup("Solution", () -> context.getMTA().getTelekineticHandler().solvedMaze()).addToGroup(

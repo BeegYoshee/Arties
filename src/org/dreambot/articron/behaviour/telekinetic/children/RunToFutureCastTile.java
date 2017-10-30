@@ -23,13 +23,7 @@ public class RunToFutureCastTile extends Node {
 
     @Override
     public int execute(ScriptContext context) {
-        Tile castLocation = context.getMTA().getTelekineticHandler().getSolver().getFutureCastLocation();
-        if ( castLocation != null) {
-            if (context.getDB().getWalking().walkExact(castLocation)) {
-                MethodProvider.sleepUntil(() -> context.getDB().getLocalPlayer().getTile().equals(castLocation),
-                        ScriptMath.getTravelTime(castLocation,2D));
-            }
-        }
+
         return 600;
     }
 }

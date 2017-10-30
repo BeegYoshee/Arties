@@ -16,7 +16,7 @@ public class ObserveMaze extends Node {
 
     @Override
     public String getStatus() {
-        return "Calculating path";
+        return "Observing maze";
     }
 
     @Override
@@ -27,6 +27,7 @@ public class ObserveMaze extends Node {
     @Override
     public int execute(ScriptContext context) {
         NPC mazeGuard = context.getDB().getNpcs().closest(6777);
+
         if (mazeGuard != null) {
             if (context.getDB().getMagic().isSpellSelected()) {
                 context.getDB().getMouse().click(new Point(Calculations.random(0,517),Calculations.random(0,337)));

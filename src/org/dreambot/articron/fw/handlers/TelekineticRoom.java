@@ -27,7 +27,7 @@ public class TelekineticRoom extends Room {
     }
 
     public boolean isObserving() {
-        return ((context.getDB().getPlayerSettings().getConfig(629) >> 30) & 0b1) == 1;
+        return (((context.getDB().getPlayerSettings().getConfig(629) >> 30) & 0b1) == 1);
     }
 
     public MazeSolver getSolver() {
@@ -42,13 +42,15 @@ public class TelekineticRoom extends Room {
         }
         Point currentPoint = context.getDB().getMouse().getPosition();
         NPC guard = context.getDB().getNpcs().closest(6777);
-        if (guard.getModel().getVertexPoints().contains(currentPoint)) {
-            return context.getDB().getMouse().click();
-        }
-        Point centroid = guard.getModel().getEntity().getCenterPoint();
-        if (centroid != null) {
-            return context.getDB().getMouse().move(centroid)  && context.getDB().getClient().getMenu().getDefaultAction().contains("Cast") &&
-                    context.getDB().getMouse().click(centroid) && context.getDB().getMouse().getCrosshairState() == CrosshairState.INTERACTED;
+        if (guard != null) {
+            if (guard.getModel().getVertexPoints().contains(currentPoint)) {
+                return context.getDB().getMouse().click();
+            }
+            Point centroid = guard.getModel().getEntity().getCenterPoint();
+            if (centroid != null) {
+                return context.getDB().getMouse().move(centroid) && context.getDB().getClient().getMenu().getDefaultAction().contains("Cast") &&
+                        context.getDB().getMouse().click(centroid) && context.getDB().getMouse().getCrosshairState() == CrosshairState.INTERACTED;
+            }
         }
         return false;
     }

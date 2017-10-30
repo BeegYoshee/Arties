@@ -8,7 +8,7 @@ package org.dreambot.articron.data;
  */
 
 public enum Reward {
-
+ //boolean canMule
     BEGINNER_WAND(30, 30, 300, 30, "https://vignette.wikia.nocookie.net/2007scape/images/3/3d/Beginner_wand.png/revision/latest?cb=20140727070722",6908),
     APPRENTICE_WAND(60, 60, 600, 60, "https://vignette.wikia.nocookie.net/2007scape/images/5/54/Apprentice_wand.png/revision/latest?cb=20140727070721",6910),
     TEACHER_WAND(150, 200, 1500, 150, "https://vignette.wikia.nocookie.net/2007scape/images/5/55/Teacher_wand.png/revision/latest?cb=20140727070722",6912),

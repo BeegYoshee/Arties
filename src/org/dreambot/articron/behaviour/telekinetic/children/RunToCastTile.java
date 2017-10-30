@@ -17,16 +17,48 @@ import org.dreambot.articron.util.ScriptMath;
 public class RunToCastTile extends Node {
     @Override
     public String getStatus() {
-        return "Solving maze";
+        return "Walking to tile";
     }
 
     @Override
     public int priority() {
-        return 0;
+        return 1;
     }
 
     @Override
     public int execute(ScriptContext context) {
-        return 600;
+
+        if (context.getDB().getMagic().isSpellSelected()) {
+            context.getDB().getMouse().click(new Point(Calculations.random(0,517),Calculations.random(0,337)));
+        }
+
+        Tile toBe = context.getMTA().getTelekineticHandler().getSolver().getCastTile();
+        if (toBe != null) {
+            if (context.getDB().getWalking().walkExact(toBe)) {
+                MethodProvider.sleep(Calculations.random(600,800));
+                MethodProvider.sleepUntil(
+                        () -> context.getDB().getLocalPlayer().isMoving(), 600
+                );
+            }
+            Tile dest = context.getDB().getClient().getDestination();
+            if (dest != null) {
+                if (context.getMTA().getTelekineticHandler().getSolver().getCorrectRow().contains(dest)) {
+                    Tile toGo = context.getMTA().getTelekineticHandler().getSolver().getExpectedLocationTile().getWorldTile();
+                    if (toGo != null) {
+                        if (context.getDB().getMagic().castSpell(Normal.TELEKINETIC_GRAB)) {
+                            if (context.getDB().getMouse().move(toGo)) {
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            MethodProvider.sleepUntil(
+                    () -> context.getMTA().getTelekineticHandler().getSolver().isInCorrectRow() || !context.getDB().getLocalPlayer().isMoving(), ScriptMath.getTravelTime(toBe,0.8D)
+            );
+        }
+
+        return 100;
     }
 }

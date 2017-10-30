@@ -1,10 +1,13 @@
 package org.dreambot.articron.behaviour.telekinetic.children;
 
+import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.fw.nodes.Node;
 import org.dreambot.articron.util.ScriptMath;
+
+import java.awt.*;
 
 /**
  * Author: Articron
@@ -15,7 +18,7 @@ public class ApproachMaze extends Node {
 
     @Override
     public String getStatus() {
-        return "Approaching maze";
+        return "Walk2Maze";
     }
 
     @Override
@@ -26,12 +29,16 @@ public class ApproachMaze extends Node {
     @Override
     public int execute(ScriptContext context) {
         GameObject wall = context.getDB().getGameObjects().closest(10755);
-        if (context.getDB().getWalking().walk(wall.getTile())) {
-            MethodProvider.sleepUntil(
-                    () -> context.getDB().getGameObjects().closest(10755).distance() <= 1,
-                    ScriptMath.getTravelTime(wall,0.2D)
-            );
+        if (context.getDB().getMagic().isSpellSelected()) {
+            context.getDB().getMouse().click(new Point(Calculations.random(0,517),Calculations.random(0,337)));
         }
+            if (wall.getTile().distance() < 10 ?
+                    context.getDB().getWalking().walkOnScreen(wall.getTile()) : context.getDB().getWalking().walk(wall.getTile())) {
+                MethodProvider.sleepUntil(
+                        () -> context.getDB().getGameObjects().closest(10755).distance() <= 1,
+                        ScriptMath.getTravelTime(wall, 0.2D)
+                );
+            }
         return 600;
     }
 }

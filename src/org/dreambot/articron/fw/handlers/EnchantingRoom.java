@@ -31,7 +31,7 @@ public class EnchantingRoom extends Room {
     }
 
     public GroundItem getViableStone() {
-        List<Player> players = e.getDB().getPlayers().all();
+        /**List<Player> players = e.getDB().getPlayers().all();
         if (players.size() == 1) {
             return e.getDB().getGroundItems().closest(DRAGONSTONE_ID);
         }
@@ -42,7 +42,8 @@ public class EnchantingRoom extends Room {
         if (stones.size() == 0) return null;
         stones.sort(Comparator.comparingDouble(Entity::distance));
         players.sort(Comparator.comparingDouble(p -> p.distance(stones.get(0))));
-        return stones.size() < 2 ? null : stones.get(e.getDB().getLocalPlayer().equals(players.get(0)) ? 0 : 1);
+        return stones.size() < 2 ? null : stones.get(e.getDB().getLocalPlayer().equals(players.get(0)) ? 0 : 1);**/
+        return e.getDB().getGroundItems().closest(DRAGONSTONE_ID);
     }
 
     public boolean hasStones() {
