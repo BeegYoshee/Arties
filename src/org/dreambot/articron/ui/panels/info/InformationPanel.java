@@ -46,27 +46,21 @@ public class InformationPanel extends HPanel {
 		});
 		buttons.add(button);
 		buttons.add(new HButton("Start", listener -> {
-			System.out.println("Room-Panel");
-			System.out.println("Telekinetic");
-			System.out.println(main.getRoomPanel().getTelekinetic().getSpell().name());
-			System.out.println(main.getRoomPanel().getTelekinetic().getStaff().name());
-			System.out.println("Enchanters");
-			System.out.println(main.getRoomPanel().getEnchanting().getSpell().name());
-			System.out.println(main.getRoomPanel().getEnchanting().getStaff().name());
-			System.out.println("Alchemists");
-			System.out.println(main.getRoomPanel().getAlchemy().getSpell().name());
-			System.out.println(main.getRoomPanel().getAlchemy().getStaff().name());
-			System.out.println("Graveyard");
-			System.out.println(main.getRoomPanel().getGraveyard().getSpell().name());
-			System.out.println(main.getRoomPanel().getGraveyard().getStaff().name());
-			System.out.println("Reward-Panel");
+			main.getContext().getMTA().getTelekineticHandler().setStave(main.getRoomPanel().getTelekinetic().getStaff());
+			main.getContext().getMTA().getTelekineticHandler().setSpell(main.getRoomPanel().getTelekinetic().getSpell());
+			main.getContext().getMTA().getEnchantingHandler().setSpell(main.getRoomPanel().getEnchanting().getSpell());
+			main.getContext().getMTA().getEnchantingHandler().setStave(main.getRoomPanel().getEnchanting().getStaff());
+			main.getContext().getMTA().getAlchemyHandler().setSpell(main.getRoomPanel().getAlchemy().getSpell());
+			main.getContext().getMTA().getAlchemyHandler().setStave(main.getRoomPanel().getAlchemy().getStaff());
+			main.getContext().getMTA().getGraveyardHandler().setSpell(main.getRoomPanel().getGraveyard().getSpell());
+			main.getContext().getMTA().getGraveyardHandler().setStave(main.getRoomPanel().getGraveyard().getStaff());
 			for(Reward r : main.getRewardPanel().getQueuedRewards()) {
-				System.out.println(r.name());
+				main.getContext().getMTA().getRewardQueue().add(r);
 			}
-			System.out.println("Miscellaneous-Panel");
 			for(MTARoom r : main.getMiscellaneousPanel().getRoomPanel().getRoomOrder()) {
-				System.out.println(r.name());
+				main.getContext().getMTA().getRoomOrder().add(r);
 			}
+			/**
 			System.out.println("E-MAIL: "+main.getMiscellaneousPanel().getNotificationPanel().getEMail());
 			System.out.println("Alias: "+main.getMiscellaneousPanel().getNotificationPanel().getAlias());
 			System.out.println("Levelup: "+main.getMiscellaneousPanel().getNotificationPanel().getLevel().getSlider().isSelected());
@@ -76,6 +70,9 @@ public class InformationPanel extends HPanel {
 			System.out.println("Mule-name: "+main.getMiscellaneousPanel().getMulePanel().getMuleName());
 			System.out.println("Mule-loc: "+main.getMiscellaneousPanel().getMulePanel().getMuleLocation());
 			System.out.println("Mule-time: "+main.getMiscellaneousPanel().getMulePanel().getMuleTime());
+             **/
+			main.getContext().loadScriptNodes();
+			main.dispose();
 		}));
 		top.add(information, BorderLayout.WEST);
 		top.add(buttons, BorderLayout.EAST);

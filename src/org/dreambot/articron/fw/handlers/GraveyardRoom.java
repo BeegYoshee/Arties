@@ -1,8 +1,12 @@
 package org.dreambot.articron.fw.handlers;
 
+import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
 
+import org.dreambot.api.methods.Calculations;
+import org.dreambot.api.methods.MethodProvider;
+import org.dreambot.api.methods.input.mouse.CrosshairState;
 import org.dreambot.api.methods.magic.Normal;
 import org.dreambot.api.methods.magic.Spell;
 import org.dreambot.api.methods.skills.Skill;
@@ -61,7 +65,7 @@ public class GraveyardRoom extends Room {
     }
 
     public Spell getGraveyardSpell() {
-        return e.getMTA().hasPeachSpellUnlocked() ? Normal.BONES_TO_PEACHES : Normal.BONES_TO_BANANAS;
+        return getSpell().getSpell();
     }
 
     public GameObject getPileOfBones() {
@@ -73,6 +77,31 @@ public class GraveyardRoom extends Room {
         if (bonePiles.size() == 0)
             return null;
         return bonePiles.get(0);
+    }
+
+
+    public boolean interactWithBones(GameObject bones) {
+        int count =  e.getDB().getInventory().getEmptySlots();
+        Rectangle hulls = bones.getModel().getHullBounds(0.3f).getBounds();
+        if (e.getDB().getMouse().move(hulls) && MethodProvider.sleepUntil(() -> e.getDB().getClient().getMenu().contains("Grab"),2000)) {
+            if (e.getDB().getClient().getMenu().getDefaultAction().contains("Grab")) {
+                if (e.getDB().getMouse().click()) {
+                    MethodProvider.sleep(100);
+                    if (e.getDB().getMouse().getCrosshairState() == CrosshairState.INTERACTED) {
+                        return MethodProvider.sleepUntil(() -> count != e.getDB().getInventory().getEmptySlots(), Calculations.random(50, 600));
+                    }
+                }
+            } else {
+                if (e.getDB().getClient().getMenu().clickAction("Grab")) {
+                    MethodProvider.sleep(100);
+                    if (e.getDB().getMouse().getCrosshairState() == CrosshairState.INTERACTED) {
+                        return MethodProvider.sleepUntil(() -> count != e.getDB().getInventory().getEmptySlots(), Calculations.random(50, 600));
+                    }
+                }
+            }
+
+        }
+        return false;
     }
 
     private Comparator<GameObject> boneSorter = (o1, o2) -> {

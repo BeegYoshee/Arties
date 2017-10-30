@@ -1,6 +1,7 @@
 package org.dreambot.articron.behaviour.telekinetic.children;
 
 import org.dreambot.api.methods.MethodProvider;
+import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.fw.nodes.Node;
 
@@ -23,8 +24,8 @@ public class CastTelegrab extends Node{
     public int execute(ScriptContext context) {
         if (context.getMTA().getTelekineticHandler().castTelegrab()) {
             context.getMTA().getTelekineticHandler().getSolver().saveStatueLocation();
-            MethodProvider.sleepUntil(() -> context.getDB().getNpcs().closest(6777) == null, 5000);
+            MethodProvider.sleepUntil(() ->  context.getDB().getNpcs().closest(6777) == null, 5000);
         }
-        return 100;
+        return 1;
     }
 }

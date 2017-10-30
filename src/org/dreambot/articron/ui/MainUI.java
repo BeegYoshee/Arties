@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.JTabbedPane;
 
+import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.loader.HImageLoader;
 import org.dreambot.articron.swing.HFrame;
 import org.dreambot.articron.swing.child.HTabbedPane;
@@ -20,10 +21,11 @@ public class MainUI extends HFrame {
 	private RewardPanel rewardPanel;
 	private InformationPanel informationPanel;
 	private RoomPanel roomPanel;
+	private ScriptContext context;
 
-	public MainUI(String text, BufferedImage icon) {
+	public MainUI(String text, BufferedImage icon, ScriptContext context) {
 		super(text, icon);
-
+		this.context = context;
 		JTabbedPane tabbedPane = new HTabbedPane();
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		tabbedPane.addTab("Info",
@@ -59,6 +61,10 @@ public class MainUI extends HFrame {
 	}
 
 	public static void main(String[] args) {// coughs at HIMageloader
-		new MainUI("ArtiMTA PRO", HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"));
+		new MainUI("ArtiMTA PRO", HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"),null);
+	}
+
+	public ScriptContext getContext() {
+		return context;
 	}
 }

@@ -47,16 +47,17 @@ public class RunToCastTile extends Node {
                     if (toGo != null) {
                         if (context.getDB().getMagic().castSpell(Normal.TELEKINETIC_GRAB)) {
                             if (context.getDB().getMouse().move(toGo)) {
-
+                                MethodProvider.sleepUntil(
+                                        () -> context.getMTA().getTelekineticHandler().getSolver().isInCorrectRow() || !context.getDB().getLocalPlayer().isMoving(), ScriptMath.getTravelTime(toBe,
+                                                context.getDB().getWalking().isRunEnabled() ? 0.8D : 1D)
+                                );
                             }
                         }
                     }
                 }
             }
 
-            MethodProvider.sleepUntil(
-                    () -> context.getMTA().getTelekineticHandler().getSolver().isInCorrectRow() || !context.getDB().getLocalPlayer().isMoving(), ScriptMath.getTravelTime(toBe,0.8D)
-            );
+
         }
 
         return 100;

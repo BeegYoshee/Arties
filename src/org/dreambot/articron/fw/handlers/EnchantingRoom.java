@@ -1,12 +1,6 @@
 package org.dreambot.articron.fw.handlers;
 
-import java.util.Comparator;
-import java.util.List;
-
-import org.dreambot.api.methods.magic.Normal;
 import org.dreambot.api.methods.magic.Spell;
-import org.dreambot.api.wrappers.interactive.Entity;
-import org.dreambot.api.wrappers.interactive.Player;
 import org.dreambot.api.wrappers.items.GroundItem;
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.fw.ScriptContext;
@@ -51,6 +45,6 @@ public class EnchantingRoom extends Room {
     }
 
     public Spell getEnchantSpell() {
-        return Normal.LEVEL_4_ENCHANT;
+        return getSpell().getSpell();
     }
 }

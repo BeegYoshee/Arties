@@ -27,6 +27,7 @@ public class MTAHandler {
     private GraveyardRoom graveyardHandler;
 
     private List<Room> roomList = new ArrayList<>();
+    private List<MTARoom> roomOrder = new ArrayList<>();
 
     public MTAHandler(ScriptContext context) {
         this.context = context;
@@ -89,7 +90,7 @@ public class MTAHandler {
 
 
     public MTARoom getRoomToEnter() {
-        for (MTARoom room : MTARoom.values()) {
+        for (MTARoom room : roomOrder) {
             if (getPizzazPoints(room) < getRewardQueue().getCurrentReward().getRequiredPoints(room)) {
                 return room;
             }
@@ -139,5 +140,9 @@ public class MTAHandler {
 
     public GraveyardRoom getGraveyardHandler() {
         return graveyardHandler;
+    }
+
+    public List<MTARoom> getRoomOrder() {
+        return roomOrder;
     }
 }

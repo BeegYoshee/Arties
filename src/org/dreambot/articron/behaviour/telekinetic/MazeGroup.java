@@ -16,7 +16,7 @@ public class MazeGroup extends NodeGroup {
 
     @Override
     public String getStatus() {
-        return "Calculating pathfinding";
+        return "Calculating maze";
     }
 
     @Override

@@ -6,6 +6,8 @@ import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.fw.nodes.Node;
 
+import java.awt.*;
+
 /**
  * Author: Articron
  * Date:   18/10/2017.
@@ -27,12 +29,12 @@ public class LootBones extends Node {
         if (bones != null) {
             if (context.getDB().getLocalPlayer().getHealthPercent() < context.getMTA().getGraveyardHandler().getEatThreshold()) {
                 for (int i = 0; i < 5; i++) {
-                    if (bones.interact("Grab")) {
+                    if (context.getMTA().getGraveyardHandler().interactWithBones(bones)) {
                         MethodProvider.sleep(Calculations.random(100, 300));
                     }
                 }
             } else {
-                if (bones.interact("Grab")) {
+                if (context.getMTA().getGraveyardHandler().interactWithBones(bones)) {
                     MethodProvider.sleep(Calculations.random(100, 300));
                 }
             }

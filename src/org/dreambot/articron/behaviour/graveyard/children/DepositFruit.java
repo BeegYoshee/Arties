@@ -28,10 +28,8 @@ public class DepositFruit extends Node {
         if (chute != null && chute.interact("Deposit")) {
             if (MethodProvider.sleepUntil((() -> context.getDB().getLocalPlayer().isMoving()), Calculations.random(600,800))) {
                 MethodProvider.sleepUntil(() -> !context.getDB().getInventory().contains("Banana", "Peach"), ScriptMath.getTravelTime(chute, 0.4D));
-            } else {
-                MethodProvider.log("Breaking cuz not moving");
             }
         }
-        return 200;
+        return 1;
     }
 }

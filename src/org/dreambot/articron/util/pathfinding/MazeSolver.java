@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.dreambot.api.methods.Calculations;
-import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.articron.fw.ScriptContext;
@@ -143,7 +142,6 @@ public class MazeSolver {
 
     private int forIndex(MazeTile tile) {
         if (path == null || path.size() == 0) {
-            MethodProvider.log("index method believes the path is null / 0");
             return -1;
         }
         for (int i = 0; i < path.size(); i++) {
@@ -151,7 +149,6 @@ public class MazeSolver {
                 return i;
             }
         }
-        MethodProvider.log("No index was found");
         return -1;
     }
 

@@ -28,6 +28,7 @@ public class Room {
     }
 
     public MTAStave getStave() {
+        if (staff == MTAStave.NONE) return null;
         return staff;
     }
 

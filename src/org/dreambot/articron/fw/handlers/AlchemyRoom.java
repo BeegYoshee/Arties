@@ -85,7 +85,7 @@ public class AlchemyRoom extends Room {
     }
 
     public Spell getAlchemySpell() {
-        return Normal.LOW_LEVEL_ALCHEMY;
+        return getSpell().getSpell();
     }
 
     public AlchemyDrop getBestItem() {

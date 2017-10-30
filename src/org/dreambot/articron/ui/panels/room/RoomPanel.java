@@ -17,8 +17,8 @@ public class RoomPanel extends HPanel {
 	public RoomPanel(Border border) {
 		super(new GridLayout(0, 2, 10, 10), border);
 		add(telekinetic = new MTARoomPanel(getBorder(MTARoom.TELEKINETIC.getPortalName()), MTARoom.TELEKINETIC));
-		add(alchemy = new MTARoomPanel(getBorder(MTARoom.ENCHANTING.getPortalName()), MTARoom.ENCHANTING));
-		add(enchanting = new MTARoomPanel(getBorder(MTARoom.ALCHEMY.getPortalName()), MTARoom.ALCHEMY));
+		add(alchemy = new MTARoomPanel(getBorder(MTARoom.ENCHANTING.getPortalName()), MTARoom.ALCHEMY));
+		add(enchanting = new MTARoomPanel(getBorder(MTARoom.ALCHEMY.getPortalName()), MTARoom.ENCHANTING));
 		add(graveyard = new MTARoomPanel(getBorder(MTARoom.GRAVEYARD.getPortalName()), MTARoom.GRAVEYARD));
 	}
 

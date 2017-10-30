@@ -30,7 +30,7 @@ public class LootStones extends Node {
         GroundItem stone = context.getMTA().getEnchantingHandler().getViableStone();
         if (stone != null && stone.distance() < 10) {
             if (stone.interact("Take")) {
-                MethodProvider.sleepUntil(() -> !stone.exists(), ScriptMath.getTravelTime(stone, 1.5));
+                MethodProvider.sleepUntil(() -> !stone.exists(), ScriptMath.getTravelTime(stone, 0.5D));
                 if (!context.getMTA().getEnchantingHandler().roomContainsStones()) {
                     WorldTracker.addWorld(context.getDB().getClient().getCurrentWorld());
                 }
@@ -38,7 +38,7 @@ public class LootStones extends Node {
         } else {
             if (stone != null) {
                 if (context.getDB().getWalking().walk(stone.getTile())) {
-                MethodProvider.sleepUntil(() -> stone.distance() < 10, ScriptMath.getTravelTime(stone,1D));
+                MethodProvider.sleepUntil(() -> !stone.exists() || stone.distance() < 10, ScriptMath.getTravelTime(stone,0.3D));
                 }
             }
         }
