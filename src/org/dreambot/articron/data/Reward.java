@@ -63,6 +63,15 @@ public enum Reward {
         return itemSprite;
     }
 
+    public static Reward reverseSearch(String rewardName) {
+        for (Reward r : Reward.values()) {
+            if (r.name().equals(rewardName)) {
+                return r;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         String[] share = this.name().split("_");
