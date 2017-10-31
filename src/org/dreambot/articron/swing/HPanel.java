@@ -1,10 +1,8 @@
 package org.dreambot.articron.swing;
 
-import java.awt.Component;
-import java.awt.LayoutManager;
-
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.Border;
+import java.awt.*;
 
 /**
  * Created by: Niklas

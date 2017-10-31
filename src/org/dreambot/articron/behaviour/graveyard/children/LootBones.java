@@ -6,8 +6,6 @@ import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.fw.nodes.Node;
 
-import java.awt.*;
-
 /**
  * Author: Articron
  * Date:   18/10/2017.

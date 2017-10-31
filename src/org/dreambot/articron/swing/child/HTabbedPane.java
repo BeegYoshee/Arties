@@ -1,12 +1,10 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.Insets;
-
-import javax.swing.JTabbedPane;
-import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicTabbedPaneUI;
-
 import org.dreambot.articron.swing.HFrame;
+
+import javax.swing.*;
+import javax.swing.plaf.basic.BasicTabbedPaneUI;
+import java.awt.*;
 
 /**
  * Created by: Niklas

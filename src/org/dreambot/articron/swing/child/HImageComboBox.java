@@ -1,15 +1,7 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.util.Map;
-
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
-import javax.swing.JComboBox;
-
-import org.dreambot.articron.ui.panels.room.DisplayObject;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by: Niklas Date: 20.09.2017 Alias: Dinh Time: 18:28

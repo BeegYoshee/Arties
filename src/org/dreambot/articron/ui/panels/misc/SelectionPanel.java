@@ -1,17 +1,13 @@
 package org.dreambot.articron.ui.panels.misc;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
-
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.swing.HFrame;
 import org.dreambot.articron.swing.HPanel;
 import org.dreambot.articron.swing.child.HLabel;
 import org.dreambot.articron.swing.special.HDragList;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by: Niklas Date: 18.10.2017 Alias: Dinh Time: 23:02

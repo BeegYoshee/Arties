@@ -1,13 +1,8 @@
 package org.dreambot.articron.fw.handlers;
 
-import java.awt.*;
-import java.util.Comparator;
-import java.util.List;
-
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.input.mouse.CrosshairState;
-import org.dreambot.api.methods.magic.Normal;
 import org.dreambot.api.methods.magic.Spell;
 import org.dreambot.api.methods.skills.Skill;
 import org.dreambot.api.wrappers.interactive.GameObject;
@@ -16,6 +11,10 @@ import org.dreambot.articron.data.GraveyardBone;
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.util.ScriptMath;
+
+import java.awt.*;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Author: Articron

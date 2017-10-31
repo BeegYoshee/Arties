@@ -1,6 +1,6 @@
 package org.dreambot.articron.data;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * Author: Articron

@@ -1,12 +1,9 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.BorderLayout;
-
-import javax.swing.Box;
-import javax.swing.Icon;
-import javax.swing.JLabel;
-
 import org.dreambot.articron.swing.HPanel;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by: Niklas

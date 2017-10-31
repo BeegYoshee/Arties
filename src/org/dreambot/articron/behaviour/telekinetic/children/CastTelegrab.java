@@ -1,7 +1,6 @@
 package org.dreambot.articron.behaviour.telekinetic.children;
 
 import org.dreambot.api.methods.MethodProvider;
-import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.fw.nodes.Node;
 

@@ -1,13 +1,8 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
-
-import javax.swing.JToggleButton;
 
 /**
  * Created by: Niklas

@@ -1,15 +1,12 @@
 package org.dreambot.articron.loader;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.UIManager;
 
 /**
  * Created by: Niklas Date: 18.09.2017 Alias: Dinh Time: 23:07

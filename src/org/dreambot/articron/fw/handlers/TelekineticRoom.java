@@ -1,14 +1,13 @@
 package org.dreambot.articron.fw.handlers;
 
-import java.awt.Point;
-
-import org.dreambot.api.methods.dialogues.Dialogues;
 import org.dreambot.api.methods.input.mouse.CrosshairState;
 import org.dreambot.api.methods.magic.Normal;
 import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.util.pathfinding.MazeSolver;
+
+import java.awt.*;
 
 
 /**

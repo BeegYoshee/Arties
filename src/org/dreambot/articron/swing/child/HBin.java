@@ -1,8 +1,8 @@
 package org.dreambot.articron.swing.child;
 
-import javax.swing.Icon;
-
 import org.dreambot.articron.swing.special.HListItemTransferHandler;
+
+import javax.swing.*;
 
 /**
  * Created by: Niklas

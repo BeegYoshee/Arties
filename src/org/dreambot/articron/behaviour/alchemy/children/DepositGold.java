@@ -1,11 +1,11 @@
 package org.dreambot.articron.behaviour.alchemy.children;
 
-import java.awt.Point;
-
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.fw.nodes.Node;
+
+import java.awt.*;
 
 /**
  * Author: Articron

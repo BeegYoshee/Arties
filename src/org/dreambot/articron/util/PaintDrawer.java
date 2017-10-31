@@ -1,21 +1,18 @@
 package org.dreambot.articron.util;
 
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
+import org.dreambot.api.methods.skills.Skill;
+import org.dreambot.articron.data.MTARoom;
+import org.dreambot.articron.data.Reward;
+import org.dreambot.articron.fw.ScriptContext;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
-
-import org.dreambot.api.methods.skills.Skill;
-import org.dreambot.articron.data.MTARoom;
-import org.dreambot.articron.data.Reward;
-import org.dreambot.articron.fw.ScriptContext;
 
 /**
  * Author: Articron

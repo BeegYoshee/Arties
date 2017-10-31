@@ -1,12 +1,12 @@
 package org.dreambot.articron.feature;
 
+import org.dreambot.api.utilities.Timer;
+import org.dreambot.articron.util.ScriptMath;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.dreambot.api.utilities.Timer;
-import org.dreambot.articron.util.ScriptMath;
 
 /**
  * Author: Articron

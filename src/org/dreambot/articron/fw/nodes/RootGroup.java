@@ -1,8 +1,8 @@
 package org.dreambot.articron.fw.nodes;
 
-import java.util.function.BooleanSupplier;
-
 import org.dreambot.articron.fw.ScriptContext;
+
+import java.util.function.BooleanSupplier;
 
 /**
  * Author: Articron

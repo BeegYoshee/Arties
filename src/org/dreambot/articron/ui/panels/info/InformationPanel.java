@@ -1,16 +1,5 @@
 package org.dreambot.articron.ui.panels.info;
 
-import java.awt.BorderLayout;
-import java.awt.Desktop;
-import java.awt.GridLayout;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.data.Reward;
 import org.dreambot.articron.swing.HFrame;
@@ -20,6 +9,14 @@ import org.dreambot.articron.swing.child.HLabel;
 import org.dreambot.articron.swing.child.HScrollPane;
 import org.dreambot.articron.swing.child.HTextArea;
 import org.dreambot.articron.ui.MainUI;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class InformationPanel extends HPanel {
 

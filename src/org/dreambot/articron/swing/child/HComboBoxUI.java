@@ -1,15 +1,13 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.Dimension;
+import org.dreambot.articron.loader.HImageLoader;
+import org.dreambot.articron.swing.HFrame;
 
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
-
-import org.dreambot.articron.loader.HImageLoader;
-import org.dreambot.articron.swing.HFrame;
+import java.awt.*;
 
 /**
  * Created by: Niklas

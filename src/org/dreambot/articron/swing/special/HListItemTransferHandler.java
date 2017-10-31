@@ -1,16 +1,11 @@
 package org.dreambot.articron.swing.special;
 
+import org.dreambot.articron.ui.panels.reward.RewardItem;
+
+import javax.swing.*;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
-
-import javax.swing.DefaultListModel;
-import javax.swing.JComponent;
-import javax.swing.JList;
-import javax.swing.TransferHandler;
-
-import org.dreambot.articron.data.Reward;
-import org.dreambot.articron.ui.panels.reward.RewardItem;
 
 /**
  * Created by: Niklas Date: 19.10.2017 Alias: Dinh Time: 18:54

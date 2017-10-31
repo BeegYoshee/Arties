@@ -1,17 +1,10 @@
 package org.dreambot.articron.swing;
 
-import java.awt.AlphaComposite;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-
 import org.dreambot.articron.swing.child.HTitleBar;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by: Niklas Date: 18.09.2017 Alias: Dinh Time: 23:02

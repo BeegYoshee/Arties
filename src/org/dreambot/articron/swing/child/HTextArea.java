@@ -1,8 +1,8 @@
 package org.dreambot.articron.swing.child;
 
-import javax.swing.JTextArea;
-
 import org.dreambot.articron.swing.HFrame;
+
+import javax.swing.*;
 
 public class HTextArea extends JTextArea{
 	

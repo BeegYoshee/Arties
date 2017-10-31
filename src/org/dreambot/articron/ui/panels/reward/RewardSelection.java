@@ -1,16 +1,13 @@
 package org.dreambot.articron.ui.panels.reward;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-
-import javax.swing.ImageIcon;
-
 import org.dreambot.articron.data.Reward;
 import org.dreambot.articron.loader.HImageLoader;
 import org.dreambot.articron.swing.HPanel;
 import org.dreambot.articron.swing.child.HImageLabel;
 import org.dreambot.articron.swing.child.HScrollPane;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by: Niklas

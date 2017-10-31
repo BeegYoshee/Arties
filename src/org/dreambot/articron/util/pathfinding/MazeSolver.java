@@ -1,14 +1,14 @@
 package org.dreambot.articron.util.pathfinding;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.articron.fw.ScriptContext;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Author: Articron

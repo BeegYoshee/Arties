@@ -1,10 +1,8 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
-
 import org.dreambot.articron.swing.HPanel;
+
+import java.awt.*;
 
 /**
  * Created by: Niklas Date: 16.10.2017 Alias: Dinh Time: 23:25

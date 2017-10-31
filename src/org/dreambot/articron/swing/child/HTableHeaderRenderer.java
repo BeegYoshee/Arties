@@ -1,13 +1,10 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
-
 import org.dreambot.articron.swing.HFrame;
+
+import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
+import java.awt.*;
 
 /**
  * Created by: Niklas

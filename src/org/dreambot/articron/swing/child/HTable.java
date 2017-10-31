@@ -1,17 +1,14 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.util.Enumeration;
+import org.dreambot.articron.swing.HFrame;
 
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
-
-import org.dreambot.articron.swing.HFrame;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Enumeration;
 
 /**
  * Created by: Niklas

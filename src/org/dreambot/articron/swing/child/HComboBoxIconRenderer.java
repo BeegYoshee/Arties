@@ -1,17 +1,13 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.Component;
+import org.dreambot.articron.swing.HFrame;
+import org.dreambot.articron.ui.panels.room.DisplayObject;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
-
-import org.dreambot.articron.swing.HFrame;
-import org.dreambot.articron.ui.panels.room.DisplayObject;
 
 public class HComboBoxIconRenderer<E> extends DefaultListCellRenderer {
 	private List<E> elementList = new ArrayList<>();

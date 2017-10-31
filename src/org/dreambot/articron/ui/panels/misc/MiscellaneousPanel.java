@@ -1,11 +1,10 @@
 package org.dreambot.articron.ui.panels.misc;
 
-import java.awt.BorderLayout;
+import org.dreambot.articron.swing.HPanel;
 
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-
-import org.dreambot.articron.swing.HPanel;
+import java.awt.*;
 
 public class MiscellaneousPanel extends HPanel {
 	private MulePanel mulePanel;

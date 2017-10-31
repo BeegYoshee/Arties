@@ -1,13 +1,5 @@
 package org.dreambot.articron.ui.panels.room;
 
-import java.awt.BorderLayout;
-import java.awt.image.BufferedImage;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.data.MTASpell;
 import org.dreambot.articron.data.MTAStave;
@@ -15,6 +7,11 @@ import org.dreambot.articron.loader.HImageLoader;
 import org.dreambot.articron.swing.HPanel;
 import org.dreambot.articron.swing.child.HImageComboBox;
 import org.dreambot.articron.ui.panels.reward.RewardIcon;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class MTARoomPanel extends HPanel {
 

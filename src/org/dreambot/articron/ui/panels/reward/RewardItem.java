@@ -1,11 +1,5 @@
 package org.dreambot.articron.ui.panels.reward;
 
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.border.EmptyBorder;
-
 import org.dreambot.articron.data.Reward;
 import org.dreambot.articron.loader.HImageLoader;
 import org.dreambot.articron.price.PriceCheck;
@@ -14,6 +8,10 @@ import org.dreambot.articron.swing.HPanel;
 import org.dreambot.articron.swing.child.HImageLabel;
 import org.dreambot.articron.swing.child.HLabel;
 import org.dreambot.articron.swing.child.HTable;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 /**
  * Created by: Niklas Date: 19.10.2017 Alias: Dinh Time: 21:56

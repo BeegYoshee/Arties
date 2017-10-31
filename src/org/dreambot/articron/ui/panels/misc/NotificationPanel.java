@@ -1,18 +1,14 @@
 package org.dreambot.articron.ui.panels.misc;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.border.TitledBorder;
-
 import org.dreambot.articron.swing.HFrame;
 import org.dreambot.articron.swing.HPanel;
 import org.dreambot.articron.swing.child.HCheckSliderText;
 import org.dreambot.articron.swing.child.HLabel;
 import org.dreambot.articron.swing.child.HTextField;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 
 /**
  * Created by: Niklas Date: 18.10.2017 Alias: Dinh Time: 23:02

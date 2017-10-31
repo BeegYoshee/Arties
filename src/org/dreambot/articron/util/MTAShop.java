@@ -1,13 +1,13 @@
 package org.dreambot.articron.util;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.dreambot.api.methods.widget.Widget;
 import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.articron.data.Reward;
 import org.dreambot.articron.fw.ScriptContext;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Articron

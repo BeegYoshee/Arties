@@ -1,21 +1,12 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.image.BufferedImage;
-import java.nio.Buffer;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicComboBoxEditor;
-
 import org.dreambot.articron.swing.HFrame;
 import org.dreambot.articron.swing.HPanel;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicComboBoxEditor;
+import java.awt.*;
 
 /**
  * Created by: Niklas

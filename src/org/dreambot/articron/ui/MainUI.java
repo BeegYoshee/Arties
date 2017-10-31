@@ -1,12 +1,5 @@
 package org.dreambot.articron.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-
-import javax.swing.BorderFactory;
-import javax.swing.JTabbedPane;
-
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.loader.HImageLoader;
 import org.dreambot.articron.swing.HFrame;
@@ -15,6 +8,10 @@ import org.dreambot.articron.ui.panels.info.InformationPanel;
 import org.dreambot.articron.ui.panels.misc.MiscellaneousPanel;
 import org.dreambot.articron.ui.panels.reward.RewardPanel;
 import org.dreambot.articron.ui.panels.room.RoomPanel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class MainUI extends HFrame {
 	private MiscellaneousPanel miscellaneosPanel;

@@ -1,8 +1,7 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.Color;
-
-import javax.swing.JSeparator;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by: Niklas

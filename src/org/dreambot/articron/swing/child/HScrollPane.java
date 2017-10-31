@@ -1,10 +1,9 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.Component;
-
-import javax.swing.JScrollPane;
-
 import org.dreambot.articron.swing.HFrame;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by: Niklas

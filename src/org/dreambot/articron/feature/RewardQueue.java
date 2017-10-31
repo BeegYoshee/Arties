@@ -1,12 +1,8 @@
 package org.dreambot.articron.feature;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Queue;
-
 import org.dreambot.articron.data.Reward;
+
+import java.util.*;
 
 /**
  * Author: Articron

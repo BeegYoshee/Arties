@@ -1,7 +1,5 @@
 package org.dreambot.articron.behaviour.alchemy.children;
 
-import java.awt.*;
-
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.input.mouse.CrosshairState;
@@ -9,6 +7,8 @@ import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.fw.nodes.Node;
 import org.dreambot.articron.util.ScriptMath;
+
+import java.awt.*;
 
 /**
  * Author: Articron

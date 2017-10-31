@@ -1,14 +1,13 @@
 package org.dreambot.articron.ui.panels.room;
 
-import java.awt.GridLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.swing.HFrame;
 import org.dreambot.articron.swing.HPanel;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 
 public class RoomPanel extends HPanel {
 

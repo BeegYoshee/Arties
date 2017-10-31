@@ -1,12 +1,8 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-
-import javax.swing.JComboBox;
 
 /**
  * Created by: Niklas

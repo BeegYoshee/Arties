@@ -1,11 +1,10 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.FlowLayout;
-import java.awt.event.MouseAdapter;
-
-import javax.swing.JLabel;
-
 import org.dreambot.articron.swing.HPanel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
 
 /**
  * Created by: Niklas

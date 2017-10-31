@@ -1,7 +1,6 @@
 package org.dreambot.articron.fw.handlers;
 
 import org.dreambot.api.methods.MethodProvider;
-import org.dreambot.api.methods.magic.Normal;
 import org.dreambot.api.methods.magic.Spell;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.methods.widget.Widget;

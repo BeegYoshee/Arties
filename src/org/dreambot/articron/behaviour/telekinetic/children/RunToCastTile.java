@@ -1,7 +1,5 @@
 package org.dreambot.articron.behaviour.telekinetic.children;
 
-import java.awt.Point;
-
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.magic.Normal;
@@ -9,6 +7,8 @@ import org.dreambot.api.methods.map.Tile;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.fw.nodes.Node;
 import org.dreambot.articron.util.ScriptMath;
+
+import java.awt.*;
 
 /**
  * Author: Articron

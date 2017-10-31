@@ -1,16 +1,9 @@
 package org.dreambot.articron.swing.special;
 
-import java.awt.BorderLayout;
-
-import javax.swing.DefaultListModel;
-import javax.swing.DropMode;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
-
 import org.dreambot.articron.swing.HFrame;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by: Niklas

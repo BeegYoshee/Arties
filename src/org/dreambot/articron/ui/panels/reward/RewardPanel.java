@@ -1,11 +1,5 @@
 package org.dreambot.articron.ui.panels.reward;
 
-import java.awt.BorderLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.border.Border;
-
 import org.dreambot.articron.data.Reward;
 import org.dreambot.articron.loader.HImageLoader;
 import org.dreambot.articron.swing.HPanel;
@@ -13,6 +7,11 @@ import org.dreambot.articron.swing.child.HBin;
 import org.dreambot.articron.swing.child.HImageLabel;
 import org.dreambot.articron.swing.child.HScrollPane;
 import org.dreambot.articron.swing.special.HDragList;
+
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by: Niklas Date: 18.10.2017 Alias: Dinh Time: 22:39

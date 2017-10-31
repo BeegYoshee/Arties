@@ -1,9 +1,5 @@
 package org.dreambot.articron;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.script.AbstractScript;
 import org.dreambot.api.script.Category;
@@ -19,6 +15,8 @@ import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.loader.HImageLoader;
 import org.dreambot.articron.ui.MainUI;
 
+import java.awt.*;
+
 /**
  * Author: Articron
  * Date:   14/10/2017.
@@ -27,19 +25,18 @@ import org.dreambot.articron.ui.MainUI;
         category = Category.MINIGAME,
         name = "ArtiMTA PRO",
         author = "Articron",
-        version = 1.23D,
+        version = 1.30D,
         description = "Does the MTA minigame to obtain infinity items. 250-400K/hr, profitable magic xp! " +
         "See the script thread for user instructions!"
 )
-public class CronMTA extends AbstractScript implements MessageListener{
+public class ArtiMTA extends CronScript implements MessageListener{
 
-    private ScriptContext context;
 
     @Override
     public void onStart() {
-        context = new ScriptContext(this, getManifest());
+        setContext();
         getWalking().setRunThreshold(Calculations.random(30,50));
-        Manager.init(context);
+        Manager.init(getContext());
         Manager.commit(
 
                 new EnableRunning().when(
@@ -47,13 +44,13 @@ public class CronMTA extends AbstractScript implements MessageListener{
                 ),
 
                 new SwitchStave().when(
-                        () -> !context.getMTA().hasValidStaff()
+                        () -> !getContext().getMTA().hasValidStaff()
                 )
         );
         new MainUI(
                 "ArtiMTA-Pro V" + getManifest().version(),
                 HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"),
-                context
+                getContext()
         );
     }
 
@@ -76,13 +73,13 @@ public class CronMTA extends AbstractScript implements MessageListener{
         g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
         g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,RenderingHints.VALUE_STROKE_PURE);
-        context.getPaint().onPaint(g2);
+        getContext().getPaint().onPaint(g2);
     }
 
     @Override
     public void onGameMessage(Message message) {
-        if (context.getMTA().getCurrentRoom() == MTARoom.ALCHEMY) {
-            context.getMTA().getAlchemyHandler().setFoundItem(
+        if (getContext().getMTA().getCurrentRoom() == MTARoom.ALCHEMY) {
+            getContext().getMTA().getAlchemyHandler().setFoundItem(
                     AlchemyDrop.forMessage(message.getMessage()), getGameObjects().closest("Cupboard").getTile());
         }
     }

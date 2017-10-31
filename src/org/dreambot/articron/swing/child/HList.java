@@ -1,10 +1,8 @@
 package org.dreambot.articron.swing.child;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
-
 import org.dreambot.articron.swing.HFrame;
+
+import javax.swing.*;
 
 /**
  * Created by: Niklas

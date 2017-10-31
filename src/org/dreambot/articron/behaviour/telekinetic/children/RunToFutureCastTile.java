@@ -1,10 +1,7 @@
 package org.dreambot.articron.behaviour.telekinetic.children;
 
-import org.dreambot.api.methods.MethodProvider;
-import org.dreambot.api.methods.map.Tile;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.fw.nodes.Node;
-import org.dreambot.articron.util.ScriptMath;
 
 /**
  * Author: Articron

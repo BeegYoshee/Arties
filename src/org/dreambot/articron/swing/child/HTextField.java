@@ -1,12 +1,9 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-
-import javax.swing.BorderFactory;
-import javax.swing.JTextField;
-
 import org.dreambot.articron.swing.HPanel;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by: Niklas Date: 18.10.2017 Alias: Dinh Time: 23:30

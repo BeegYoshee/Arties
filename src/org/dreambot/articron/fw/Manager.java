@@ -1,11 +1,11 @@
 package org.dreambot.articron.fw;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.dreambot.articron.fw.nodes.Node;
 import org.dreambot.articron.fw.nodes.NodeGroup;
 import org.dreambot.articron.fw.nodes.RootGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Articron

@@ -1,8 +1,8 @@
 package org.dreambot.articron.behaviour.telekinetic;
 
-import java.util.function.BooleanSupplier;
-
 import org.dreambot.articron.fw.nodes.NodeGroup;
+
+import java.util.function.BooleanSupplier;
 
 /**
  * Author: Articron

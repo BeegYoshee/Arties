@@ -1,19 +1,12 @@
 package org.dreambot.articron.swing.child;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.event.ActionListener;
+import org.dreambot.articron.swing.HFrame;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-
-import org.dreambot.articron.swing.HFrame;
+import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * Created by: Niklas

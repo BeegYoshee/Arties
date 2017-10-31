@@ -1,10 +1,8 @@
 package org.dreambot.articron.fw;
 
 import org.dreambot.api.methods.MethodContext;
-import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
 import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.utilities.Timer;
-import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.articron.behaviour.*;
 import org.dreambot.articron.behaviour.alchemy.AlchemyGroup;
 import org.dreambot.articron.behaviour.alchemy.children.AlchItem;
@@ -30,7 +28,6 @@ import org.dreambot.articron.behaviour.telekinetic.SolutionGroup;
 import org.dreambot.articron.behaviour.telekinetic.SolveGroup;
 import org.dreambot.articron.behaviour.telekinetic.children.*;
 import org.dreambot.articron.data.MTARoom;
-import org.dreambot.articron.data.MTAStave;
 import org.dreambot.articron.fw.handlers.MTAHandler;
 import org.dreambot.articron.util.PaintDrawer;
 

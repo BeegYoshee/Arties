@@ -1,12 +1,12 @@
 package org.dreambot.articron.fw.nodes;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BooleanSupplier;
-
 import org.dreambot.api.data.GameState;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.articron.fw.ScriptContext;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BooleanSupplier;
 
 /**
  * Author: Articron

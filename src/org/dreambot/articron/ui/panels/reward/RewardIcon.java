@@ -1,6 +1,6 @@
 package org.dreambot.articron.ui.panels.reward;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
