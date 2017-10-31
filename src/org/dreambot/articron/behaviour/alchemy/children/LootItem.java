@@ -38,10 +38,12 @@ public class LootItem extends Node {
 
             if (cupboard.distance() > 2) {
                if (cupboard.interact("Search")) {
-                   MethodProvider.sleepUntil(() -> cupboard.getTile().distance() <= 1, ScriptMath.getTravelTime(cupboard, 0.7D));
+                   MethodProvider.sleep(600);
+                   MethodProvider.sleepUntil(() -> cupboard.getTile().distance() <= 1 || !context.getDB().getLocalPlayer().isMoving(), ScriptMath.getTravelTime(cupboard, 0.7D));
                } else {
                    if (context.getDB().getWalking().walkExact(context.getMTA().getAlchemyHandler().getAdjacentTile(cupboard))) {
-                       MethodProvider.sleepUntil(() -> cupboard.getTile().distance() <= 1, ScriptMath.getTravelTime(cupboard, 0.7D));
+                       MethodProvider.sleep(600);
+                       MethodProvider.sleepUntil(() -> cupboard.getTile().distance() <= 1 || !context.getDB().getLocalPlayer().isMoving(), ScriptMath.getTravelTime(cupboard, 0.7D));
                        return execute(context);
                    }
                }

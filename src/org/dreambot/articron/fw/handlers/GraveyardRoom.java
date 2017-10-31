@@ -82,6 +82,9 @@ public class GraveyardRoom extends Room {
 
     public boolean interactWithBones(GameObject bones) {
         int count =  e.getDB().getInventory().getEmptySlots();
+        if (bones.distance() > 4) {
+            return bones.interact("Grab");
+        }
         Rectangle hulls = bones.getModel().getHullBounds(0.3f).getBounds();
         if (e.getDB().getMouse().move(hulls) && MethodProvider.sleepUntil(() -> e.getDB().getClient().getMenu().contains("Grab"),2000)) {
             if (e.getDB().getClient().getMenu().getDefaultAction().contains("Grab")) {

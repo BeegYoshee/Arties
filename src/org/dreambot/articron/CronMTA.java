@@ -11,6 +11,7 @@ import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.script.listener.MessageListener;
 import org.dreambot.api.wrappers.widgets.message.Message;
 import org.dreambot.articron.behaviour.EnableRunning;
+import org.dreambot.articron.behaviour.SwitchStave;
 import org.dreambot.articron.data.AlchemyDrop;
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.fw.Manager;
@@ -26,7 +27,7 @@ import org.dreambot.articron.ui.MainUI;
         category = Category.MINIGAME,
         name = "ArtiMTA PRO",
         author = "Articron",
-        version = 1.20D,
+        version = 1.23D,
         description = "Does the MTA minigame to obtain infinity items. 250-400K/hr, profitable magic xp! " +
         "See the script thread for user instructions!"
 )
@@ -40,11 +41,20 @@ public class CronMTA extends AbstractScript implements MessageListener{
         getWalking().setRunThreshold(Calculations.random(30,50));
         Manager.init(context);
         Manager.commit(
+
                 new EnableRunning().when(
                         () -> !getWalking().isRunEnabled() && getWalking().getRunEnergy() >= getWalking().getRunThreshold()
+                ),
+
+                new SwitchStave().when(
+                        () -> !context.getMTA().hasValidStaff()
                 )
         );
-        MainUI gui = new MainUI("ArtiMTA-Pro V" + getManifest().version(), HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"), context);
+        new MainUI(
+                "ArtiMTA-Pro V" + getManifest().version(),
+                HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"),
+                context
+        );
     }
 
 

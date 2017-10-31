@@ -32,6 +32,9 @@ public class DialogueHandler extends Node {
             if (d.canContinue()) {
                 d.spaceToContinue();
             } else {
+                if (d.chooseOption(d.getOptionIndexContaining("I'm new to this place. Where am I?"))) {
+                    return 100;
+                }
                 if (d.chooseOption(d.getOptionIndexContaining("bye"))) {
                     return 100;
                 }

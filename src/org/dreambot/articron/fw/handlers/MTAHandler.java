@@ -1,8 +1,12 @@
 package org.dreambot.articron.fw.handlers;
 
 import org.dreambot.api.methods.MethodProvider;
+import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
+import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.wrappers.interactive.GameObject;
+import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.articron.data.MTARoom;
+import org.dreambot.articron.data.MTAStave;
 import org.dreambot.articron.feature.RewardQueue;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.util.MTAShop;
@@ -72,10 +76,12 @@ public class MTAHandler {
         if (portal != null && portal.exists()) {
             if (portal.distance() > 10) {
                 if (context.getDB().getWalking().walk(portal)) {
-                    MethodProvider.sleepUntil(() -> context.getDB().getWalking().getDestination().distance() < 3, ScriptMath.getTravelTime(portal,0.8D));
+                    Tile dest = context.getDB().getWalking().getDestination();
+                    if (dest != null) {
+                        MethodProvider.sleepUntil(() -> context.getDB().getWalking().getDestination().distance() < 3, ScriptMath.getTravelTime(portal, 0.8D));
+                    }
                     return usePortal(room,enter);
                 }
-
             }
             if (portal.interact("Enter")) {
                 MethodProvider.sleepUntil(() -> enter != isOutside(), ScriptMath.getTravelTime(portal, 1.0));
@@ -96,6 +102,19 @@ public class MTAHandler {
             }
         }
         return null;
+    }
+
+    public boolean hasValidStaff() {
+        if (isOutside()) {
+            return true;
+        }
+        MTARoom room = getCurrentRoom();
+        MTAStave staff = getRoom(room).getStave();
+        if (staff == null) {
+            return true;
+        }
+        Item weapon = context.getDB().getEquipment().getItemInSlot(EquipmentSlot.WEAPON.getSlot());
+        return weapon != null && weapon.getName().equals(staff.getName());
     }
 
     public TelekineticRoom getTelekineticHandler() {

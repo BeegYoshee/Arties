@@ -5,10 +5,7 @@ import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
 import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.utilities.Timer;
 import org.dreambot.api.wrappers.items.Item;
-import org.dreambot.articron.behaviour.DialogueHandler;
-import org.dreambot.articron.behaviour.LeaveRoom;
-import org.dreambot.articron.behaviour.PortalEnter;
-import org.dreambot.articron.behaviour.SwitchStave;
+import org.dreambot.articron.behaviour.*;
 import org.dreambot.articron.behaviour.alchemy.AlchemyGroup;
 import org.dreambot.articron.behaviour.alchemy.children.AlchItem;
 import org.dreambot.articron.behaviour.alchemy.children.DepositGold;
@@ -84,6 +81,7 @@ public class ScriptContext {
         getPaint().loadRewards();
         Manager.commit(
 
+
                 /*
                  * General event-nodes
                  */
@@ -91,20 +89,20 @@ public class ScriptContext {
                         () -> getDB().getDialogues().inDialogue()
                 ),
 
-                new SwitchStave().when(
-                        () -> {
-                            if (getMTA().isOutside()) return false;
-                            MTAStave stave = getMTA().getRoom(getMTA().getCurrentRoom()).getStave();
-                            if (stave == null) return false;
-                            Item currentWeapon = getDB().getEquipment().getItemInSlot(EquipmentSlot.WEAPON.getSlot());
-                            return (currentWeapon == null) || !currentWeapon.getName().equals(stave.getName());
-                        }
-                ),
+
 
                 /*
                  * Outside
                  */
                 new OutsideGroup("Outside", () -> getMTA().isOutside()).addToGroup(
+
+                        new TalkToHatter().when(
+                                () -> !getMTA().hasProgressHat()
+                        ),
+
+                        new WearHat().when(
+                                () -> getDB().getInventory().contains("Progress hat")
+                        ),
 
                         new WalkToPortals().when(
                                 () -> !getMTA().canBuyReward() && getDB().getLocalPlayer().getTile().getZ() == 1
