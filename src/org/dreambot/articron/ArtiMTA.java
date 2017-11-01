@@ -26,8 +26,7 @@ import java.awt.*;
         description = "Does the MTA minigame to obtain infinity items. 250-400K/hr, profitable magic xp! " +
         "See the script thread for user instructions!"
 )
-public class ArtiMTA extends CronScript implements MessageListener{
-
+public class ArtiMTA extends CronScript implements MessageListener {
 
     @Override
     public void onStart() {
@@ -76,7 +75,7 @@ public class ArtiMTA extends CronScript implements MessageListener{
                 MethodProvider.log("Reason: ");
                 MethodProvider.log("\"Out of runes to cast " +
                         getContext().getMTA().getRoom(getContext().getMTA().getCurrentRoom()).getSpell().getSpellName() +
-                " in room: " + getContext().getMTA().getCurrentRoom().name()+"\"");
+                        " in room: " + getContext().getMTA().getCurrentRoom().name()+"\"");
                 MethodProvider.log("The bot will attempt to leave the room before shutting down");
                 getContext().shutdown();
             }
