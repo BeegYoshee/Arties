@@ -85,6 +85,7 @@ public class ScriptContext {
                 )
         );
     }
+
     public void loadScriptNodes() {
         getPaint().loadRewards();
 

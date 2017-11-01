@@ -145,8 +145,11 @@ public class MazeSolver {
             return -1;
         }
         for (int i = 0; i < path.size(); i++) {
-            if (path.get(i).getTile().equals(tile)) {
-                return i;
+            MazeTile t = path.get(i).getTile();
+            if (t != null) {
+                if (t.equals(tile)) {
+                    return i;
+                }
             }
         }
         return -1;

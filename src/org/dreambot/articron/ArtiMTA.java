@@ -22,7 +22,7 @@ import java.awt.*;
         category = Category.MINIGAME,
         name = "ArtiMTA PRO",
         author = "Articron",
-        version = 1.4D,
+        version = 1.41D,
         description = "Does the MTA minigame to obtain infinity items. 250-400K/hr, profitable magic xp! " +
         "See the script thread for user instructions!"
 )

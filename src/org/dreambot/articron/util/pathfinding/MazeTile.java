@@ -36,6 +36,7 @@ public class MazeTile {
     @Override
     public boolean equals(Object obj) {
         MazeTile n = (MazeTile) obj;
+        if (n == null) return false;
         return n.getX() == x && n.getY() == y;
     }
 

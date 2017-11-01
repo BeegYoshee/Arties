@@ -29,8 +29,8 @@ public class ClientConnection extends Connection {
                         break;
 
                     case MULE_IS_COMING:
-                        String test = getStream().readUTF();
-                        System.out.println("A mule is coming for me! yay");
+                        String muleName = getStream().readUTF();
+                        System.out.println("A mule is coming for me: " + muleName);
                         break;
 
                     default:
@@ -38,10 +38,10 @@ public class ClientConnection extends Connection {
                 }
             } catch (IOException e) {
                 setActive(false);
-                System.out.println("client connection got phucked");
+                System.out.println("client connection got closed");
             }
         }
-        System.out.println("Outside of the packet checking");
+        System.out.println("The stream was closed, connection closed");
     }
 
     public String getKey() {

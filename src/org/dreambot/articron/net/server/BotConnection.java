@@ -1,7 +1,6 @@
 package org.dreambot.articron.net.server;
 
 import org.dreambot.articron.CronScript;
-import org.dreambot.articron.feature.MuleRequest;
 import org.dreambot.articron.net.Connection;
 import org.dreambot.articron.net.MuleServer;
 import org.dreambot.articron.net.protocol.PacketType;
@@ -36,8 +35,7 @@ public class BotConnection extends Connection {
                             break;
 
                         case IDENTIFY:
-                            String botName = readSecureUTF();
-                            this.botName = botName;
+                            this.botName = readSecureUTF();
                             break;
 
                         case NEED_A_MULE:

@@ -25,6 +25,7 @@ public class Stream {
     public boolean isConnected() {
         return socket.isConnected();
     }
+
     public void close() {
         try {
             this.input.close();
@@ -36,16 +37,11 @@ public class Stream {
     }
 
     public PacketType readPacket() throws IOException {
-        int packetId = this.input.read();
-        PacketType packet = PacketType.forByte(packetId);
-        System.out.println("Received packet: " + ((packet == null) ? "null" : packet.name()));
-        return packet;
+        return PacketType.forByte(this.input.read());
     }
 
     public String readUTF() throws IOException {
-        String utf = this.input.readLine();
-        System.out.println("[STREAM-IN]" + utf);
-        return utf;
+        return this.input.readLine();
     }
 
 
