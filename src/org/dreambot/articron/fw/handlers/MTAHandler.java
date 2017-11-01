@@ -74,11 +74,13 @@ public class MTAHandler {
         }
         GameObject portal = context.getDB().getGameObjects().closest(enter ? room.getPortalName() : "Exit Teleport");
         if (portal != null && portal.exists()) {
-            if (portal.distance() > 10) {
-                if (context.getDB().getWalking().walk(portal)) {
+            Tile portalLocation = portal.getTile();
+            if (((int)Math.round(portalLocation.distance())) >= 14) {
+                if (context.getDB().getWalking().walk(portalLocation)) {
+                    MethodProvider.sleep(600);
                     Tile dest = context.getDB().getWalking().getDestination();
                     if (dest != null) {
-                        MethodProvider.sleepUntil(() -> context.getDB().getWalking().getDestination().distance() < 3, ScriptMath.getTravelTime(portal, 0.8D));
+                        MethodProvider.sleepUntil(() -> portalLocation.distance() < 10 || !context.getDB().getLocalPlayer().isMoving(), ScriptMath.getTravelTime(portal, 0.8D));
                     }
                     return usePortal(room,enter);
                 }

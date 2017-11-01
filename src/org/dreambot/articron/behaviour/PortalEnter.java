@@ -1,6 +1,7 @@
 package org.dreambot.articron.behaviour;
 
 import org.dreambot.api.methods.MethodProvider;
+import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.fw.nodes.Node;
 
@@ -21,8 +22,11 @@ public class PortalEnter extends Node {
 
     @Override
     public int execute(ScriptContext context) {
-        if (context.getMTA().usePortal(context.getMTA().getRoomToEnter(),true)) {
-            MethodProvider.sleepUntil(() -> !context.getMTA().isOutside(),5000);
+        MTARoom room = context.getMTA().getRoomToEnter();
+        if (room != null) {
+            if (context.getMTA().usePortal(room, true)) {
+                MethodProvider.sleepUntil(() -> !context.getMTA().isOutside(), 5000);
+            }
         }
         return 600;
     }

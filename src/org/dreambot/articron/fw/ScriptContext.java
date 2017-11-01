@@ -74,6 +74,17 @@ public class ScriptContext {
     }
 
 
+    public void shutdown() {
+        Manager.removeAllGroups();
+        Manager.commit(
+                new LeaveRoom().when(
+                        () -> !getMTA().isOutside()
+                ),
+                new ShutdownScript().when(
+                        () -> getMTA().isOutside()
+                )
+        );
+    }
     public void loadScriptNodes() {
         getPaint().loadRewards();
 
@@ -208,7 +219,7 @@ public class ScriptContext {
                         ),
 
                         new AlchItem().when(
-                                () -> getMTA().getAlchemyHandler().canAlch() && getMTA().getAlchemyHandler().shouldAlch()
+                                () ->  getMTA().getAlchemyHandler().shouldAlch()
                         )
                 )
         );

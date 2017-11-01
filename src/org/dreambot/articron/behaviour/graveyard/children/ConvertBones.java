@@ -21,6 +21,7 @@ public class ConvertBones extends Node {
 
     @Override
     public int execute(ScriptContext context) {
+
         if (context.getDB().getMagic().castSpell(context.getMTA().getGraveyardHandler().getGraveyardSpell())) {
             MethodProvider.sleepUntil(() -> !context.getDB().getInventory().contains("Bones"),500);
         }

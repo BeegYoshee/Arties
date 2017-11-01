@@ -1,6 +1,7 @@
 package org.dreambot.articron;
 
 import org.dreambot.api.methods.Calculations;
+import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.script.listener.MessageListener;
@@ -21,7 +22,7 @@ import java.awt.*;
         category = Category.MINIGAME,
         name = "ArtiMTA PRO",
         author = "Articron",
-        version = 1.30D,
+        version = 1.4D,
         description = "Does the MTA minigame to obtain infinity items. 250-400K/hr, profitable magic xp! " +
         "See the script thread for user instructions!"
 )
@@ -68,6 +69,17 @@ public class ArtiMTA extends CronScript implements MessageListener{
         if (getContext().getMTA().getCurrentRoom() == MTARoom.ALCHEMY) {
             getContext().getMTA().getAlchemyHandler().setFoundItem(
                     AlchemyDrop.forMessage(message.getMessage()), getGameObjects().closest("Cupboard").getTile());
+        }
+        if (!getContext().getMTA().isOutside()) {
+            if (message.getMessage().contains("You do not have enough") && message.getMessage().contains("to cast this spell")) {
+                MethodProvider.log("[SCRIPT STOP]");
+                MethodProvider.log("Reason: ");
+                MethodProvider.log("\"Out of runes to cast " +
+                        getContext().getMTA().getRoom(getContext().getMTA().getCurrentRoom()).getSpell().getSpellName() +
+                " in room: " + getContext().getMTA().getCurrentRoom().name()+"\"");
+                MethodProvider.log("The bot will attempt to leave the room before shutting down");
+                getContext().shutdown();
+            }
         }
     }
 
