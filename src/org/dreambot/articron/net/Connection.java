@@ -29,6 +29,9 @@ public class Connection implements Runnable {
 
     public void setActive(boolean active) {
         this.active = active;
+        if (!active) {
+            this.stream.close();
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.dreambot.articron.net.server;
 
 import org.dreambot.articron.CronScript;
+import org.dreambot.articron.feature.MuleRequest;
 import org.dreambot.articron.net.Connection;
 import org.dreambot.articron.net.MuleServer;
 import org.dreambot.articron.net.protocol.PacketType;
@@ -36,8 +37,14 @@ public class BotConnection extends Connection {
 
                         case IDENTIFY:
                             String botName = readSecureUTF();
-                            System.out.println("[IN-STREAM] IDENTIFY MSG: " + botName);
                             this.botName = botName;
+                            break;
+
+                        case NEED_A_MULE:
+                            int world = Integer.parseInt(readSecureUTF());
+                            System.out.println(this.botName + " needs a trade @W" + world);
+                            getStream().writeUTF("muleName",PacketType.MULE_IS_COMING);
+                            //script.getContext().getMTA().getMuleQueue().addMuleRequest(new MuleRequest(world,this.botName));
                             break;
 
                         default:

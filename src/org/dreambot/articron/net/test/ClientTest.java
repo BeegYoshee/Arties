@@ -17,9 +17,9 @@ public class ClientTest {
                 Thread.sleep(5 * 1000);
 
                 client.getConnection().getStream().writeSecureUTF(
-                        "gfds",
-                        "letssee",
-                        PacketType.IDENTIFY
+                        "394",
+                        client.getConnection().getKey(),
+                        PacketType.NEED_A_MULE
                 );
 
             } catch (IOException e) {

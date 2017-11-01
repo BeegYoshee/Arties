@@ -37,11 +37,15 @@ public class Stream {
 
     public PacketType readPacket() throws IOException {
         int packetId = this.input.read();
-        return PacketType.forByte(packetId);
+        PacketType packet = PacketType.forByte(packetId);
+        System.out.println("Received packet: " + ((packet == null) ? "null" : packet.name()));
+        return packet;
     }
 
     public String readUTF() throws IOException {
-        return this.input.readLine();
+        String utf = this.input.readLine();
+        System.out.println("[STREAM-IN]" + utf);
+        return utf;
     }
 
 
@@ -50,13 +54,17 @@ public class Stream {
         writeUTF(utf);
     }
 
+    public void writePacket(PacketType packet) throws IOException {
+        this.output.writeByte(packet.getID());
+    }
+
     public void writeSecureUTF(String utf, String key, PacketType packet) throws IOException {
         this.output.writeByte(packet.getID());
         writeUTF(key);
         writeUTF(utf);
     }
 
-    private void writeUTF(String utf) throws IOException{
+    private void writeUTF(String utf) throws IOException {
         this.output.writeBytes(utf + "\n");
     }
 }

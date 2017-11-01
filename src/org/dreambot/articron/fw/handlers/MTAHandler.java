@@ -7,6 +7,7 @@ import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.data.MTAStave;
+import org.dreambot.articron.feature.MuleQueue;
 import org.dreambot.articron.feature.RewardQueue;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.util.MTAShop;
@@ -25,6 +26,7 @@ public class MTAHandler {
     private ScriptContext context;
     private MTAShop mtaShop;
     private RewardQueue rewardQueue;
+    private MuleQueue muleQueue;
     private AlchemyRoom alchemyHandler;
     private EnchantingRoom enchantingHandler;
     private TelekineticRoom telekineticHandler;
@@ -42,6 +44,7 @@ public class MTAHandler {
         this.graveyardHandler = new GraveyardRoom(context, MTARoom.GRAVEYARD);
         roomList.addAll(Arrays.asList(alchemyHandler,telekineticHandler,enchantingHandler,graveyardHandler));
         this.rewardQueue = new RewardQueue();
+        this.muleQueue = new MuleQueue();
     }
 
     public boolean hasProgressHat() {
@@ -153,6 +156,10 @@ public class MTAHandler {
 
     public RewardQueue getRewardQueue() {
         return rewardQueue;
+    }
+
+    public MuleQueue getMuleQueue() {
+        return muleQueue;
     }
 
     public EnchantingRoom getEnchantingHandler() {
