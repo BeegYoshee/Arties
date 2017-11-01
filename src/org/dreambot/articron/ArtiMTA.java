@@ -1,19 +1,15 @@
 package org.dreambot.articron;
 
 import org.dreambot.api.methods.Calculations;
-import org.dreambot.api.script.AbstractScript;
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.script.listener.MessageListener;
 import org.dreambot.api.wrappers.widgets.message.Message;
 import org.dreambot.articron.behaviour.EnableRunning;
-import org.dreambot.articron.behaviour.SwitchStave;
 import org.dreambot.articron.data.AlchemyDrop;
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.fw.Manager;
-import org.dreambot.articron.fw.ScriptContext;
-import org.dreambot.articron.loader.HImageLoader;
-import org.dreambot.articron.ui.MainUI;
+import org.dreambot.articron.ui.ProfilePicker;
 
 import java.awt.*;
 
@@ -38,20 +34,11 @@ public class ArtiMTA extends CronScript implements MessageListener{
         getWalking().setRunThreshold(Calculations.random(30,50));
         Manager.init(getContext());
         Manager.commit(
-
                 new EnableRunning().when(
                         () -> !getWalking().isRunEnabled() && getWalking().getRunEnergy() >= getWalking().getRunThreshold()
-                ),
-
-                new SwitchStave().when(
-                        () -> !getContext().getMTA().hasValidStaff()
                 )
         );
-        new MainUI(
-                "ArtiMTA-Pro V" + getManifest().version(),
-                HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"),
-                getContext()
-        );
+        new ProfilePicker(this);
     }
 
 

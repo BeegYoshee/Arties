@@ -36,7 +36,7 @@ public class HFrame extends JFrame {
 		contentPane.add(new HTitleBar(this, title, new ImageIcon(createResizedCopy(icon, 16, 16, true))), BorderLayout.NORTH);
 	}
 
-	BufferedImage createResizedCopy(Image originalImage, int scaledWidth, int scaledHeight, boolean preserveAlpha) {
+	public BufferedImage createResizedCopy(Image originalImage, int scaledWidth, int scaledHeight, boolean preserveAlpha) {
 		int imageType = preserveAlpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;
 		BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
 		Graphics2D g = scaledBI.createGraphics();

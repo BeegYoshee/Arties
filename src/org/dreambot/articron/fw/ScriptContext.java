@@ -76,6 +76,12 @@ public class ScriptContext {
 
     public void loadScriptNodes() {
         getPaint().loadRewards();
+
+        Manager.commit(
+                new SwitchStave().when(
+                        () -> !getMTA().hasValidStaff()
+                )
+        );
         Manager.commit(
 
 

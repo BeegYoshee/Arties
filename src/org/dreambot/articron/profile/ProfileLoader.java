@@ -1,11 +1,13 @@
 package org.dreambot.articron.profile;
 
+import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.data.MTASpell;
 import org.dreambot.articron.data.MTAStave;
 import org.dreambot.articron.data.Reward;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.ui.MainUI;
+import org.dreambot.articron.ui.ProfilePicker;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -66,6 +68,7 @@ public class ProfileLoader {
         String[] alchConfig = profile.getConfigs("ALCHEMY");
         String[] graveyardConfig = profile.getConfigs("GRAVEYARD");
         String[] rewards = profile.getConfigs("REWARDS");
+        String[] order = profile.getConfigs("ORDER");
         context.getMTA().getTelekineticHandler().setStave(MTAStave.reverseSearch(teleConfig[0]));
         context.getMTA().getTelekineticHandler().setSpell(MTASpell.reverseSearch(teleConfig[1]));
         context.getMTA().getEnchantingHandler().setStave(MTAStave.reverseSearch(enchantConfig[0]));
@@ -74,15 +77,28 @@ public class ProfileLoader {
         context.getMTA().getAlchemyHandler().setSpell(MTASpell.reverseSearch(alchConfig[1]));
         context.getMTA().getGraveyardHandler().setStave(MTAStave.reverseSearch(graveyardConfig[0]));
         context.getMTA().getGraveyardHandler().setSpell(MTASpell.reverseSearch(graveyardConfig[1]));
-        Arrays.asList(rewards).forEach(
-                reward -> context.getMTA().getRewardQueue().add(Reward.reverseSearch(reward))
-        );
+        for (String r : rewards) {
+            MethodProvider.log("Reward read: " + r);
+            Reward reward = Reward.reverseSearch(r);
+            if (reward != null) {
+                System.out.println("Reward object = " + reward);
+                context.getMTA().getRewardQueue().add(reward);
+            }
+        }
+        context.getMTA().getRoomOrder().clear();
+        for (String room : order) {
+            context.getMTA().getRoomOrder().add(MTARoom.forName(room));
+        }
+        MethodProvider.log("room order: ");
+        for (MTARoom room : context.getMTA().getRoomOrder()) {
+            System.out.println(" -> " + room.name());
+        }
         context.loadScriptNodes();
     }
 
     private File createProfileFile(String name) {
         File file = new File(DIRECTORY_PATH + "\\" + name + ".ser");
-        return file.exists() ? null : file;
+        return file;
     }
 
     public void saveProfile(String profileName, MainUI ui) {
@@ -156,7 +172,6 @@ public class ProfileLoader {
         for (String profile : loader.getProfileNames()) {
             System.out.println(profile);
         }
-        MainUI ui = new MainUI("test",null,null);
-        loader.saveProfile("kek",ui);
+        ProfilePicker picker = new ProfilePicker(null);
     }
 }

@@ -52,4 +52,13 @@ public enum MTARoom {
 		}
 		return null;
 	}
+
+	public static MTARoom forName(String name) {
+        for (MTARoom room : MTARoom.values()) {
+            if (room.name().equals(name)) {
+                return room;
+            }
+        }
+        return null;
+    }
 }
