@@ -10,11 +10,13 @@ import org.dreambot.api.wrappers.interactive.Entity;
 public class ScriptMath {
 
     public static Long getTravelTime(Entity object, double weight) {
-        return Math.round(object.distance() * (1000 * weight));
+        double distance = (object == null) ? 1 : object.distance();
+        return Math.round(distance * (1000 * weight));
     }
 
     public static Long getTravelTime(Tile tile, double weight) {
-        return Math.round(tile.distance() * (1000 * weight));
+        double distance = (tile == null) ? 1 : tile.distance();
+        return Math.round(distance * (1000 * weight));
     }
 
     public static int millisToSeconds(long millis) {

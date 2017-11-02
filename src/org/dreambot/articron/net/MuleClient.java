@@ -21,7 +21,7 @@ public class MuleClient {
     }
 
     public MuleClient(String ip, int port) {
-        this.ip = (ip == null) ? "localhost" : ip;
+        this.ip = (ip == null || ip.equals("")) ? "localhost" : ip;
         this.port = port;
     }
 
@@ -32,18 +32,20 @@ public class MuleClient {
     public boolean connect() {
         try {
             socket = new Socket(ip, port);
-            connection = new ClientConnection(new Stream(socket));
+            connection = new ClientConnection(new Stream(socket),this);
             executor.submit(connection);
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Failed to connect to " + ip);
         }
         return false;
     }
 
+
     public void disconnect() {
         connection.setActive(false);
         connection.getStream().close();
+        executor.shutdown();
     }
 
     public ClientConnection getConnection() {

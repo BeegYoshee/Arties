@@ -1,10 +1,7 @@
 package org.dreambot.articron.profile;
 
 import org.dreambot.api.methods.MethodProvider;
-import org.dreambot.articron.data.MTARoom;
-import org.dreambot.articron.data.MTASpell;
-import org.dreambot.articron.data.MTAStave;
-import org.dreambot.articron.data.Reward;
+import org.dreambot.articron.data.*;
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.ui.MainUI;
 import org.dreambot.articron.ui.ProfilePicker;
@@ -92,7 +89,7 @@ public class ProfileLoader {
         for (MTARoom room : context.getMTA().getRoomOrder()) {
             System.out.println(" -> " + room.name());
         }
-        context.loadScriptNodes();
+        context.loadMode(ScriptMode.WORKER);
     }
 
     private File createProfileFile(String name) {

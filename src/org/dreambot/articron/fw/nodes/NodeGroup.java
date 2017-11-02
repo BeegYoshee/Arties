@@ -24,7 +24,7 @@ public abstract class NodeGroup extends Node {
 
     @Override
     public int execute(ScriptContext context) {
-        if (context.getDB().getClient().isLoggedIn() && context.getDB().getClient().getGameState() != GameState.HOPPING
+        if (context.getDB().getClient().getGameState() != GameState.HOPPING
                 && context.getDB().getClient().getGameState() !=GameState.LOADING ) {
             for (int i = 0; i < nodeList.size(); i++) {
                 if (nodeList.get(i).isValid()) {

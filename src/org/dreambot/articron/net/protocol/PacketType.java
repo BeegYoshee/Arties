@@ -8,7 +8,8 @@ public enum PacketType {
     NEED_A_MULE(),
     MULE_IS_COMING(),
     LOOT_RECEIVED(),
-    LOOT_GIVEN()
+    LOOT_GIVEN(),
+    END_CONNECTION(),
     ;
 
     public int getID() {

@@ -2,6 +2,7 @@ package org.dreambot.articron.fw.handlers;
 
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.container.impl.equipment.EquipmentSlot;
+import org.dreambot.api.methods.input.mouse.CrosshairState;
 import org.dreambot.api.methods.map.Tile;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.api.wrappers.items.Item;
@@ -13,6 +14,7 @@ import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.util.MTAShop;
 import org.dreambot.articron.util.ScriptMath;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,6 +36,11 @@ public class MTAHandler {
 
     private List<Room> roomList = new ArrayList<>();
     private List<MTARoom> roomOrder = new ArrayList<>();
+
+    private final Tile MTA_BUILDING_TILE = new Tile(3363,3307);
+
+    private final Tile MTA_ENTRACE_TILE = new Tile(3363,3299);
+
 
     public MTAHandler(ScriptContext context) {
         this.context = context;
@@ -76,7 +83,7 @@ public class MTAHandler {
             return false;
         }
         GameObject portal = context.getDB().getGameObjects().closest(enter ? room.getPortalName() : "Exit Teleport");
-        if (portal != null && portal.exists()) {
+        if (portal != null) {
             Tile portalLocation = portal.getTile();
             if (((int)Math.round(portalLocation.distance())) >= 14) {
                 if (context.getDB().getWalking().walk(portalLocation)) {
@@ -90,6 +97,13 @@ public class MTAHandler {
             }
             if (portal.interact("Enter")) {
                 MethodProvider.sleepUntil(() -> enter != isOutside(), ScriptMath.getTravelTime(portal, 1.0));
+            }
+        } else {
+            if (enter) {
+                Tile help = new Tile(3363, 3312);
+                if (context.getDB().getWalking().walk(help)) {
+                    MethodProvider.sleepUntil(() -> context.getDB().getGameObjects().closest(enter ? room.getPortalName() : "Exit Teleport") != null, 1000);
+                }
             }
         }
         return enter != isOutside();
@@ -107,6 +121,65 @@ public class MTAHandler {
             }
         }
         return null;
+    }
+
+    public boolean isInsideMTABuilding() {
+        MTA_BUILDING_TILE.setZ(context.getDB().getLocalPlayer().getZ());
+        return MTA_BUILDING_TILE.distance() < 15 && context.getDB().getMap().canReach(MTA_BUILDING_TILE);
+    }
+
+    public boolean enterMTABuilding() {
+        if (isInsideMTABuilding()) {
+            return true;
+        }
+        if (MTA_ENTRACE_TILE.distance() > 14) {
+            if (context.getDB().getWalking().walkExact(MTA_ENTRACE_TILE)) {
+                MethodProvider.sleep(1000);
+                Tile dest = context.getDB().getWalking().getDestination();
+                MethodProvider.sleepUntil(() -> ((dest == null) || dest.distance() <= 5) || !context.getDB().getLocalPlayer().isMoving(), ScriptMath.getTravelTime(dest, 0.5D));
+            }
+            return enterMTABuilding();
+        } else {
+            if (MTA_ENTRACE_TILE.distance() > 3) {
+                Point p = context.getDB().getMap().tileToMiniMap(MTA_ENTRACE_TILE.getRandomizedTile(1));
+                if (context.getDB().getMouse().click(p)) {
+                    MethodProvider.sleep(200);
+                    MethodProvider.sleepUntil(() -> MTA_ENTRACE_TILE.distance() <= 3, 1000);
+                }
+            }
+            if (MTA_ENTRACE_TILE.distance() <= 3) {
+                GameObject portal = context.getDB().getGameObjects().getTopObjectOnTile(MTA_ENTRACE_TILE);
+                return (portal != null) && portal.interact("Enter");
+            }
+        }
+        return false;
+    }
+
+    public boolean leaveMTABuilding() {
+        Tile loc = context.getDB().getLocalPlayer().getTile();
+        if (!isInsideMTABuilding()) {
+            return true;
+        }
+        if (loc.getZ() == 1) {
+            GameObject stairs = context.getDB().getGameObjects().closest(10776);
+            if (stairs != null && stairs.interact("Climb-down")) {
+                MethodProvider.sleepUntil(() -> context.getDB().getLocalPlayer().getZ() == 0, ScriptMath.getTravelTime(stairs,0.5D));
+            }
+        }
+        if (loc.getZ() == 0) {
+            GameObject portal = context.getDB().getGameObjects().getTopObjectOnTile(MTA_ENTRACE_TILE);
+            if (portal != null) {
+                if (portal.distance() > 3) {
+                    if (context.getDB().getWalking().walk(portal)) {
+                        MethodProvider.sleep(1000);
+                        Tile dest = context.getDB().getWalking().getDestination();
+                        MethodProvider.sleepUntil(() -> ((dest == null) || dest.distance() <= 5) || !context.getDB().getLocalPlayer().isMoving(), ScriptMath.getTravelTime(dest, 0.5D));
+                    }
+                }
+            }
+            return (portal != null) && portal.interact("Enter");
+        }
+        return false;
     }
 
     public boolean hasValidStaff() {
@@ -172,5 +245,9 @@ public class MTAHandler {
 
     public List<MTARoom> getRoomOrder() {
         return roomOrder;
+    }
+
+    public Tile getEntranceTile() {
+        return MTA_ENTRACE_TILE;
     }
 }

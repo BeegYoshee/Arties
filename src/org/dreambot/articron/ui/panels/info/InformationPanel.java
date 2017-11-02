@@ -2,6 +2,7 @@ package org.dreambot.articron.ui.panels.info;
 
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.data.Reward;
+import org.dreambot.articron.data.ScriptMode;
 import org.dreambot.articron.profile.ProfileLoader;
 import org.dreambot.articron.swing.HFrame;
 import org.dreambot.articron.swing.HPanel;
@@ -94,7 +95,7 @@ public class InformationPanel extends HPanel {
          System.out.println("Mule-loc: "+main.getMiscellaneousPanel().getMulePanel().getMuleLocation());
          System.out.println("Mule-time: "+main.getMiscellaneousPanel().getMulePanel().getMuleTime());
          **/
-        main.getContext().loadScriptNodes();
+        main.getContext().loadMode(ScriptMode.WORKER);
         main.dispose();
     }
 

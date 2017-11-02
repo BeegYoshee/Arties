@@ -12,12 +12,10 @@ public class ClientTest {
         if (client.connect()) {
             try {
 
-                client.getConnection().getStream().writeUTF("h'D",PacketType.HANDSHAKE);
-
+                client.getConnection().getStream().sendUTF("iPrototype",PacketType.HANDSHAKE);
                 Thread.sleep(5 * 1000);
-
-                client.getConnection().getStream().writeSecureUTF(
-                        "394",
+                client.getConnection().getStream().sendSecureUTF(
+                        "309",
                         client.getConnection().getKey(),
                         PacketType.NEED_A_MULE
                 );

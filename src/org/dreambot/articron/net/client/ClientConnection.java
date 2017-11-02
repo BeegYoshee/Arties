@@ -1,22 +1,26 @@
 package org.dreambot.articron.net.client;
 
 import org.dreambot.articron.net.Connection;
+import org.dreambot.articron.net.MuleClient;
 import org.dreambot.articron.net.protocol.PacketType;
 import org.dreambot.articron.net.protocol.Stream;
+import org.dreambot.articron.net.protocol.TCPStream;
 
 import java.io.IOException;
 
 public class ClientConnection extends Connection {
 
     private String privateKey;
+    private MuleClient client;
 
-    public ClientConnection(Stream stream) {
+    public ClientConnection(Stream stream, MuleClient client) {
         super(stream);
+        this.client = client;
     }
 
     @Override
     public void run() {
-        while (isActive()) {
+        while (isActive() && getStream().isConnected()) {
             try {
                 System.out.println("Waiting for packet...");
                 PacketType receivedPacket = getStream().readPacket();
@@ -31,6 +35,12 @@ public class ClientConnection extends Connection {
                     case MULE_IS_COMING:
                         String muleName = getStream().readUTF();
                         System.out.println("A mule is coming for me: " + muleName);
+                        getStream().blockStream(TCPStream.OUTGOING_TRAFIIC,true);
+                        break;
+
+                    case END_CONNECTION:
+                        System.out.println("End connection packet received");
+                        client.disconnect();
                         break;
 
                     default:

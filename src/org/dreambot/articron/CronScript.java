@@ -8,7 +8,7 @@ public abstract class CronScript extends AbstractScript {
     private ScriptContext context;
 
     public void setContext() {
-        context = new ScriptContext(this, getManifest());
+        context = new ScriptContext(this, getManifest(), getRandomManager());
     }
 
     public ScriptContext getContext() {

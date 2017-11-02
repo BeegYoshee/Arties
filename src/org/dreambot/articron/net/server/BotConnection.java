@@ -1,6 +1,7 @@
 package org.dreambot.articron.net.server;
 
-import org.dreambot.articron.CronScript;
+import org.dreambot.articron.feature.MuleRequest;
+import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.net.Connection;
 import org.dreambot.articron.net.MuleServer;
 import org.dreambot.articron.net.protocol.PacketType;
@@ -13,9 +14,9 @@ public class BotConnection extends Connection {
 
     private String botName;
     private MuleServer server;
-    private CronScript script;
+    private ScriptContext script;
 
-    public BotConnection(Stream stream, MuleServer server, CronScript script) {
+    public BotConnection(Stream stream, MuleServer server, ScriptContext script) {
         super(stream);
         this.server = server;
         this.script = script;
@@ -31,7 +32,7 @@ public class BotConnection extends Connection {
 
                         case HANDSHAKE:
                             this.botName = getStream().readUTF();
-                            getStream().writeUTF(server.getKey(), PacketType.KEY_SHARE);
+                            getStream().sendUTF(server.getKey(), PacketType.KEY_SHARE);
                             break;
 
                         case IDENTIFY:
@@ -41,8 +42,9 @@ public class BotConnection extends Connection {
                         case NEED_A_MULE:
                             int world = Integer.parseInt(readSecureUTF());
                             System.out.println(this.botName + " needs a trade @W" + world);
-                            getStream().writeUTF("muleName",PacketType.MULE_IS_COMING);
-                            //script.getContext().getMTA().getMuleQueue().addMuleRequest(new MuleRequest(world,this.botName));
+                            getStream().sendUTF("iPrototype",PacketType.MULE_IS_COMING);
+                            script.getMTA().getMuleQueue().addMuleRequest(new MuleRequest(world,this.botName));
+                            System.out.println(this.botName + " has been added to the queue");
                             break;
 
                         default:

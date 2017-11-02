@@ -11,6 +11,8 @@ public class Stream {
     private Socket socket;
     private BufferedReader input;
     private DataOutputStream output;
+    private boolean blockedOut = false;
+    private boolean blockedIn = false;
 
     public Stream(Socket socket) {
         this.socket = socket;
@@ -36,6 +38,11 @@ public class Stream {
         }
     }
 
+    public void blockStream(TCPStream stream, boolean blocked) {
+        this.blockedOut = (stream == TCPStream.OUTGOING_TRAFIIC || stream == TCPStream.ALL_TRAFFIC) && blocked;
+        this.blockedIn = (stream == TCPStream.INBOUND_TRAFFIC || stream == TCPStream.ALL_TRAFFIC) && blocked;
+    }
+
     public PacketType readPacket() throws IOException {
         return PacketType.forByte(this.input.read());
     }
@@ -45,22 +52,28 @@ public class Stream {
     }
 
 
-    public void writeUTF(String utf, PacketType packet) throws IOException {
-        this.output.writeByte(packet.getID());
-        writeUTF(utf);
+    public void sendUTF(String utf, PacketType packet) throws IOException {
+        if (!blockedOut) {
+            this.output.writeByte(packet.getID());
+            sendUTF(utf);
+        }
     }
 
-    public void writePacket(PacketType packet) throws IOException {
-        this.output.writeByte(packet.getID());
+    public void sendPacket(PacketType packet) throws IOException {
+        if (!blockedOut) {
+            this.output.writeByte(packet.getID());
+        }
     }
 
-    public void writeSecureUTF(String utf, String key, PacketType packet) throws IOException {
-        this.output.writeByte(packet.getID());
-        writeUTF(key);
-        writeUTF(utf);
+    public void sendSecureUTF(String utf, String key, PacketType packet) throws IOException {
+        if (!blockedOut) {
+            this.output.writeByte(packet.getID());
+            sendUTF(key);
+            sendUTF(utf);
+        }
     }
 
-    private void writeUTF(String utf) throws IOException {
+    private void sendUTF(String utf) throws IOException {
         this.output.writeBytes(utf + "\n");
     }
 }

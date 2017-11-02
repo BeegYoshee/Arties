@@ -1,6 +1,7 @@
 package org.dreambot.articron.net;
 
-import org.dreambot.articron.CronScript;
+import org.dreambot.articron.fw.ScriptContext;
+import org.dreambot.articron.net.protocol.PacketType;
 import org.dreambot.articron.net.server.BotConnection;
 import org.dreambot.articron.net.server.Poller;
 
@@ -16,19 +17,19 @@ public class MuleServer {
 
     private int port;
     private String key;
-    private CronScript ctx;
+    private ScriptContext ctx;
     private Poller poller;
     private ExecutorService executor = Executors.newFixedThreadPool(10);
 
     private List<BotConnection> bots = new ArrayList<>();
 
-    public MuleServer(CronScript ctx, int port, String key) {
+    public MuleServer(ScriptContext ctx, int port, String key) {
         this.port = port;
         this.ctx = ctx;
         this.key = key;
     }
 
-    public MuleServer(CronScript ctx) {
+    public MuleServer(ScriptContext ctx) {
         this.ctx = ctx;
     }
 
@@ -50,24 +51,27 @@ public class MuleServer {
         return poller.isPolling();
     }
 
-
-
-    public void stop() {
+    public void stop() throws IOException {
+        for (BotConnection connection : getAllConnections()) {
+           connection.getStream().sendPacket(PacketType.END_CONNECTION);
+        }
         poller.stopPolling();
         bots.forEach(bot -> {
             bot.setActive(false);
             bot.getStream().close();
         });
+        poller.getSocket().close();
+        executor.shutdownNow();
         bots.clear();
     }
 
     public boolean isPortOpen() {
-        boolean taken = false;
+        boolean open = true;
         ServerSocket socket = null;
         try {
             socket = new ServerSocket(port);
         } catch (IOException e) {
-            taken = true;
+            open = false;
         } finally {
             if (socket != null) {
                 try {
@@ -77,12 +81,14 @@ public class MuleServer {
                 }
             }
         }
-        return taken;
+        return open;
     }
 
     public void addBotConnection(BotConnection connection) {
-        executor.submit(connection);
-        bots.add(connection);
+        if (getConnection(connection.getBotName()) == null) {
+            executor.submit(connection);
+            bots.add(connection);
+        }
     }
 
     public void removeBotConnection(BotConnection connection) {

@@ -18,7 +18,7 @@ public class MuleQueue {
     }
 
     public boolean hasPendingRequests() {
-        return requestQueue.size() > 0 && getCurrentRequest() != null;
+        return requestQueue.size() > 0;
     }
 
     public MuleRequest getCurrentRequest() {

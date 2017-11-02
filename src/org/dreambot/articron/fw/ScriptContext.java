@@ -1,35 +1,48 @@
 package org.dreambot.articron.fw;
 
 import org.dreambot.api.methods.MethodContext;
+import org.dreambot.api.randoms.RandomManager;
 import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.utilities.Timer;
 import org.dreambot.articron.behaviour.*;
-import org.dreambot.articron.behaviour.alchemy.AlchemyGroup;
-import org.dreambot.articron.behaviour.alchemy.children.AlchItem;
-import org.dreambot.articron.behaviour.alchemy.children.DepositGold;
-import org.dreambot.articron.behaviour.alchemy.children.LootItem;
-import org.dreambot.articron.behaviour.enchanting.EnchantingGroup;
-import org.dreambot.articron.behaviour.enchanting.children.EnchantStones;
-import org.dreambot.articron.behaviour.enchanting.children.LootStones;
-import org.dreambot.articron.behaviour.enchanting.children.WorldHop;
-import org.dreambot.articron.behaviour.graveyard.GraveyardGroup;
-import org.dreambot.articron.behaviour.graveyard.children.ConvertBones;
-import org.dreambot.articron.behaviour.graveyard.children.DepositFruit;
-import org.dreambot.articron.behaviour.graveyard.children.EatFruit;
-import org.dreambot.articron.behaviour.graveyard.children.LootBones;
-import org.dreambot.articron.behaviour.outside.OutsideGroup;
-import org.dreambot.articron.behaviour.outside.children.BuyReward;
-import org.dreambot.articron.behaviour.outside.children.OpenShop;
-import org.dreambot.articron.behaviour.outside.children.WalkToPortals;
-import org.dreambot.articron.behaviour.outside.children.WalkToShop;
-import org.dreambot.articron.behaviour.telekinetic.ApproachGroup;
-import org.dreambot.articron.behaviour.telekinetic.MazeGroup;
-import org.dreambot.articron.behaviour.telekinetic.SolutionGroup;
-import org.dreambot.articron.behaviour.telekinetic.SolveGroup;
-import org.dreambot.articron.behaviour.telekinetic.children.*;
+import org.dreambot.articron.behaviour.mta.*;
+import org.dreambot.articron.behaviour.mta.alchemy.AlchemyGroup;
+import org.dreambot.articron.behaviour.mta.alchemy.children.AlchItem;
+import org.dreambot.articron.behaviour.mta.alchemy.children.DepositGold;
+import org.dreambot.articron.behaviour.mta.alchemy.children.LootItem;
+import org.dreambot.articron.behaviour.mta.enchanting.EnchantingGroup;
+import org.dreambot.articron.behaviour.mta.enchanting.children.EnchantStones;
+import org.dreambot.articron.behaviour.mta.enchanting.children.LootStones;
+import org.dreambot.articron.behaviour.mta.enchanting.children.WorldHop;
+import org.dreambot.articron.behaviour.mta.graveyard.GraveyardGroup;
+import org.dreambot.articron.behaviour.mta.graveyard.children.ConvertBones;
+import org.dreambot.articron.behaviour.mta.graveyard.children.DepositFruit;
+import org.dreambot.articron.behaviour.mta.graveyard.children.EatFruit;
+import org.dreambot.articron.behaviour.mta.graveyard.children.LootBones;
+import org.dreambot.articron.behaviour.mta.outside.OutsideGroup;
+import org.dreambot.articron.behaviour.mta.outside.children.BuyReward;
+import org.dreambot.articron.behaviour.mta.outside.children.OpenShop;
+import org.dreambot.articron.behaviour.mta.outside.children.WalkToPortals;
+import org.dreambot.articron.behaviour.mta.outside.children.WalkToShop;
+import org.dreambot.articron.behaviour.mta.telekinetic.ApproachGroup;
+import org.dreambot.articron.behaviour.mta.telekinetic.MazeGroup;
+import org.dreambot.articron.behaviour.mta.telekinetic.SolutionGroup;
+import org.dreambot.articron.behaviour.mta.telekinetic.SolveGroup;
+import org.dreambot.articron.behaviour.mta.telekinetic.children.*;
+import org.dreambot.articron.behaviour.muling.*;
 import org.dreambot.articron.data.MTARoom;
+import org.dreambot.articron.data.MuleLocation;
+import org.dreambot.articron.data.Reward;
+import org.dreambot.articron.data.ScriptMode;
 import org.dreambot.articron.fw.handlers.MTAHandler;
-import org.dreambot.articron.util.PaintDrawer;
+import org.dreambot.articron.fw.handlers.MuleHandler;
+import org.dreambot.articron.fw.nodes.NodeGroup;
+import org.dreambot.articron.net.MuleClient;
+import org.dreambot.articron.net.MuleServer;
+import org.dreambot.articron.util.MTAPaint;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * Author: Articron
@@ -39,17 +52,28 @@ public class ScriptContext {
 
     private final MethodContext CONTEXT;
     private final MTAHandler mtaHandler;
-    private final PaintDrawer paintDrawer;
+    private final MTAPaint MTAPaint;
+    private MuleServer muleServer;
+    private MuleClient muleClient;
+    private MuleLocation muleLocation;
+    private MuleHandler muleHandler;
     private final ScriptManifest manifest;
     private final Timer timer;
+    private ScriptMode mode;
+    private RandomManager randomManager;
 
-    public ScriptContext(MethodContext methodContext, ScriptManifest manifest) {
+    private boolean hasToMule = false;
+
+    public ScriptContext(MethodContext methodContext, ScriptManifest manifest, RandomManager randomManager) {
         CONTEXT = methodContext;
         this.manifest = manifest;
+        this.randomManager = randomManager;
         mtaHandler = new MTAHandler(this);
-        paintDrawer = new PaintDrawer(this);
+        muleHandler = new MuleHandler(this);
+        MTAPaint = new MTAPaint(this);
         this.timer = new Timer();
         CONTEXT.getSkillTracker().start();
+
     }
 
     public MethodContext getDB() {
@@ -61,8 +85,8 @@ public class ScriptContext {
     }
 
 
-    public PaintDrawer getPaint() {
-        return paintDrawer;
+    public MTAPaint getPaint() {
+        return MTAPaint;
     }
 
     public String getRuntime() {
@@ -86,166 +110,266 @@ public class ScriptContext {
         );
     }
 
-    public void loadScriptNodes() {
-        getPaint().loadRewards();
+    public void loadMode(ScriptMode mode) {
+        Manager.removeAllGroups();
+        this.mode = mode;
+        if (mode == ScriptMode.MULE) {
+            System.out.println("Loading mule nodes");
+            Manager.commit(
 
-        Manager.commit(
-                new SwitchStave().when(
-                        () -> !getMTA().hasValidStaff()
-                )
-        );
-        Manager.commit(
+                    new WalkToMulingSpot().when(
+                            () -> getDB().getClient().isLoggedIn() && !getMuleHandler().isInMulingSpot()
+                    ),
+                    new LogoutMule().when(
+                            () -> !getMTA().getMuleQueue().hasPendingRequests() && getDB().getClient().isLoggedIn()
+                            && getMuleHandler().isInMulingSpot()
+                    ),
+                    new Login().when(
+                            () -> getMTA().getMuleQueue().hasPendingRequests() && !getDB().getClient().isLoggedIn()
+                    ),
 
+                    new MuleGroup("MuleGroup", () -> getMTA().getMuleQueue().hasPendingRequests() && getDB().getClient().isLoggedIn()
+                    ).addToGroup(
+                          new HopWorld().when(
+                                  () -> getMuleHandler().shouldHop()
+                          ),
+                          new TradeWorker().when(
+                                  () -> getMuleHandler().isWorkerHere() && !getDB().getTrade().isOpen()
+                          ),
+                            new GiveSupplies().when(
+                                    () -> getDB().getTrade().isOpen(1) && !getMuleHandler().getTrading().offerComplete()
+                            ),
+                            new AcceptTrade().when(
+                                    () -> getDB().getTrade().isOpen() && getMuleHandler().getTrading().offerComplete()
+                                    && getMuleHandler().getTrading().isOfferingMTAReward()
+                            )
+            ));
+        }
 
-                /*
-                 * General event-nodes
-                 */
-                new DialogueHandler().when(
-                        () -> getDB().getDialogues().inDialogue()
-                ),
+        if (mode == ScriptMode.LOOKING_FOR_MULE) {
+            new WalkToMulingSpot().when(
+                    () -> !getMuleHandler().isInMulingSpot() && hasToMule()
+            );
+        }
+        if (mode == ScriptMode.WORKER) {
+            getPaint().loadRewards();
 
+            Manager.commit(
 
+            );
+            Manager.commit(
 
-                /*
-                 * Outside
-                 */
-                new OutsideGroup("Outside", () -> getMTA().isOutside()).addToGroup(
+                    new SwitchStave().when(
+                            () -> !getMTA().hasValidStaff()
+                    ),
+                    new DialogueHandler().when(
+                            () -> getDB().getDialogues().inDialogue()
+                    ),
 
-                        new TalkToHatter().when(
-                                () -> !getMTA().hasProgressHat()
-                        ),
+                    new OutsideGroup("Outside", () -> getMTA().isOutside()).addToGroup(
+                            new OutsideMTAGroup("Outside MTA", () -> !getMTA().isInsideMTABuilding()).addToGroup(
+                                    new EnterBuilding().when(
+                                            () -> !getMTA().isInsideMTABuilding()
+                                    )
+                            ),
+                            new TalkToHatter().when(
+                                    () -> !getMTA().hasProgressHat()
+                            ),
 
-                        new WearHat().when(
-                                () -> getDB().getInventory().contains("Progress hat")
-                        ),
+                            new WearHat().when(
+                                    () -> getDB().getInventory().contains("Progress hat")
+                            ),
 
-                        new WalkToPortals().when(
-                                () -> !getMTA().canBuyReward() && getDB().getLocalPlayer().getTile().getZ() == 1
-                        ),
-                        new PortalEnter().when(
-                                () -> !getMTA().canBuyReward()
-                        ),
-                        new WalkToShop().when(
-                                () -> getMTA().canBuyReward() && getDB().getLocalPlayer().getTile().getZ() != 1
-                        ),
-                        new OpenShop().when(
-                                () -> getMTA().canBuyReward() && getDB().getLocalPlayer().getTile().getZ() == 1
-                                        && !getMTA().getMTAShop().isOpen()
-                        ),
-                        new BuyReward().when(
-                                () -> getMTA().canBuyReward() && getMTA().getMTAShop().isOpen()
-                        )
-                ),
+                            new WalkToPortals().when(
+                                    () -> !getMTA().canBuyReward() && getDB().getLocalPlayer().getTile().getZ() == 1
+                            ),
+                            new PortalEnter().when(
+                                    () -> !getMTA().canBuyReward()
+                            ),
+                            new WalkToShop().when(
+                                    () -> getMTA().canBuyReward() && getDB().getLocalPlayer().getTile().getZ() != 1
+                            ),
+                            new OpenShop().when(
+                                    () -> getMTA().canBuyReward() && getDB().getLocalPlayer().getTile().getZ() == 1
+                                            && !getMTA().getMTAShop().isOpen()
+                            ),
+                            new BuyReward().when(
+                                    () -> getMTA().canBuyReward() && getMTA().getMTAShop().isOpen()
+                            )
+                    ),
 
                 /*
                  * Telekinetic
                  */
-                new MazeGroup("Telekinetic room", () -> getMTA().getCurrentRoom() == MTARoom.TELEKINETIC).addToGroup(
+                    new MazeGroup("Telekinetic room", () -> getMTA().getCurrentRoom() == MTARoom.TELEKINETIC).addToGroup(
 
-                        new LeaveRoom().when(
-                                () -> getMTA().getPizzazPoints(MTARoom.TELEKINETIC) >=
-                                        getMTA().getRewardQueue().getCurrentReward().getRequiredPoints(MTARoom.TELEKINETIC)
-                        ),
+                            new LeaveRoom().when(
+                                    () -> getMTA().getPizzazPoints(MTARoom.TELEKINETIC) >=
+                                            getMTA().getRewardQueue().getCurrentReward().getRequiredPoints(MTARoom.TELEKINETIC)
+                            ),
 
-                        new ApproachGroup("Approach", () -> !getMTA().getTelekineticHandler().isObserving()
-                                && !getMTA().getTelekineticHandler().solvedMaze()).addToGroup(
+                            new ApproachGroup("Approach", () -> !getMTA().getTelekineticHandler().isObserving()
+                                    && !getMTA().getTelekineticHandler().solvedMaze()).addToGroup(
 
-                                new ApproachMaze().when(
-                                        () -> getDB().getGameObjects().closest(10755).distance() >= 1
-                                ),
-                                new ObserveMaze().when(
-                                        () -> getDB().getGameObjects().closest(10755).distance() <= 0
-                                )
-                        ),
+                                    new ApproachMaze().when(
+                                            () -> getDB().getGameObjects().closest(10755).distance() >= 1
+                                    ),
+                                    new ObserveMaze().when(
+                                            () -> getDB().getGameObjects().closest(10755).distance() <= 0
+                                    )
+                            ),
 
-                        new SolveGroup("Solve", () ->
-                                getMTA().getTelekineticHandler().isObserving() &&
-                                        getMTA().getTelekineticHandler().getSolver().isRead() &&
-                                        !getMTA().getTelekineticHandler().solvedMaze())
-                                .addToGroup(
+                            new SolveGroup("Solve", () ->
+                                    getMTA().getTelekineticHandler().isObserving() &&
+                                            getMTA().getTelekineticHandler().getSolver().isRead() &&
+                                            !getMTA().getTelekineticHandler().solvedMaze())
+                                    .addToGroup(
 
-                                        new CastTelegrab().when(
-                                                () -> getMTA().getTelekineticHandler().getSolver().isInCorrectRow()
-                                        ),
+                                            new CastTelegrab().when(
+                                                    () -> getMTA().getTelekineticHandler().getSolver().isInCorrectRow()
+                                            ),
 
-                                        new RunToCastTile().when(
-                                                () -> !getMTA().getTelekineticHandler().getSolver().isInCorrectRow() &&
-                                                        getMTA().getTelekineticHandler().getSolver().getCastTile() != null
-                                        )
+                                            new RunToCastTile().when(
+                                                    () -> !getMTA().getTelekineticHandler().getSolver().isInCorrectRow() &&
+                                                            getMTA().getTelekineticHandler().getSolver().getCastTile() != null
+                                            )
 
-                                ),
+                                    ),
 
-                        new SolutionGroup("Solution", () -> getMTA().getTelekineticHandler().solvedMaze()).addToGroup(
-                                new EndMaze().when(
-                                        () -> !getDB().getDialogues().inDialogue()
-                                )
-                        )
-                )
-        );
+                            new SolutionGroup("Solution", () -> getMTA().getTelekineticHandler().solvedMaze()).addToGroup(
+                                    new EndMaze().when(
+                                            () -> !getDB().getDialogues().inDialogue()
+                                    )
+                            )
+                    )
+            );
 
         /*
          * Enchanting
          */
-        Manager.commit(
-                new EnchantingGroup("Enchantment room", () -> getMTA().getCurrentRoom() == MTARoom.ENCHANTING).addToGroup(
-                        new LootStones().when(
-                                () -> getMTA().getEnchantingHandler().roomContainsStones() &&
-                                        getMTA().getEnchantingHandler().getViableStone() != null
-                        ),
-                        new EnchantStones().when(
-                                () -> getMTA().getEnchantingHandler().hasStones()
-                        ),
-                        new WorldHop().when(
-                                () -> !getMTA().getEnchantingHandler().roomContainsStones() &&
-                                        !getMTA().getEnchantingHandler().hasStones()
-                        )
-                )
-        );
+            Manager.commit(
+                    new EnchantingGroup("Enchantment room", () -> getMTA().getCurrentRoom() == MTARoom.ENCHANTING).addToGroup(
+                            new LootStones().when(
+                                    () -> getMTA().getEnchantingHandler().roomContainsStones() &&
+                                            getMTA().getEnchantingHandler().getViableStone() != null
+                            ),
+                            new EnchantStones().when(
+                                    () -> getMTA().getEnchantingHandler().hasStones()
+                            ),
+                            new WorldHop().when(
+                                    () -> !getMTA().getEnchantingHandler().roomContainsStones() &&
+                                            !getMTA().getEnchantingHandler().hasStones()
+                            )
+                    )
+            );
 
         /*
          * Alchemy
          */
-        Manager.commit(
+            Manager.commit(
 
-                new AlchemyGroup("Alchemy room", () -> getMTA().getCurrentRoom() == MTARoom.ALCHEMY).addToGroup(
-                        new LeaveRoom().when(
-                                () -> getMTA().getPizzazPoints(MTARoom.ALCHEMY) >=
-                                        getMTA().getRewardQueue().getCurrentReward().getRequiredPoints(MTARoom.ALCHEMY)
-                        ),
-                        new DepositGold().when(
-                                () -> getMTA().getAlchemyHandler().shouldDeposit()
-                        ),
-                        new LootItem().when(
-                                () -> !getMTA().getAlchemyHandler().shouldAlch()
-                        ),
+                    new AlchemyGroup("Alchemy room", () -> getMTA().getCurrentRoom() == MTARoom.ALCHEMY).addToGroup(
+                            new LeaveRoom().when(
+                                    () -> getMTA().getPizzazPoints(MTARoom.ALCHEMY) >=
+                                            getMTA().getRewardQueue().getCurrentReward().getRequiredPoints(MTARoom.ALCHEMY)
+                            ),
+                            new DepositGold().when(
+                                    () -> getMTA().getAlchemyHandler().shouldDeposit()
+                            ),
+                            new LootItem().when(
+                                    () -> !getMTA().getAlchemyHandler().shouldAlch()
+                            ),
 
-                        new AlchItem().when(
-                                () ->  getMTA().getAlchemyHandler().shouldAlch()
-                        )
-                )
-        );
+                            new AlchItem().when(
+                                    () ->  getMTA().getAlchemyHandler().shouldAlch()
+                            )
+                    )
+            );
 
         /*
          * Graveyard
          */
-        Manager.commit(
-                new GraveyardGroup("Graveyard room", () -> getMTA().getCurrentRoom() == MTARoom.GRAVEYARD).addToGroup(
-                        new LeaveRoom().when(
-                                () -> getMTA().getPizzazPoints(MTARoom.GRAVEYARD) >=
-                                        getMTA().getRewardQueue().getCurrentReward().getRequiredPoints(MTARoom.GRAVEYARD)
-                        ),
-                        new EatFruit().when(
-                                () -> getMTA().getGraveyardHandler().shouldEat() && getMTA().getGraveyardHandler().canEat()
-                        ),
-                        new LootBones().when(() -> getMTA().getGraveyardHandler().shouldLoot()
-                        ),
-                        new ConvertBones().when(
-                                () -> getMTA().getGraveyardHandler().shouldCastB2B()
-                        ),
-                        new DepositFruit().when(
-                                () -> getMTA().getGraveyardHandler().shouldDeposit() && !getMTA().getGraveyardHandler().shouldEat()
-                        )
-                )
-        );
+            Manager.commit(
+                    new GraveyardGroup("Graveyard room", () -> getMTA().getCurrentRoom() == MTARoom.GRAVEYARD).addToGroup(
+                            new LeaveRoom().when(
+                                    () -> getMTA().getPizzazPoints(MTARoom.GRAVEYARD) >=
+                                            getMTA().getRewardQueue().getCurrentReward().getRequiredPoints(MTARoom.GRAVEYARD)
+                            ),
+                            new EatFruit().when(
+                                    () -> getMTA().getGraveyardHandler().shouldEat() && getMTA().getGraveyardHandler().canEat()
+                            ),
+                            new LootBones().when(() -> getMTA().getGraveyardHandler().shouldLoot()
+                            ),
+                            new ConvertBones().when(
+                                    () -> getMTA().getGraveyardHandler().shouldCastB2B()
+                            ),
+                            new DepositFruit().when(
+                                    () -> getMTA().getGraveyardHandler().shouldDeposit() && !getMTA().getGraveyardHandler().shouldEat()
+                            )
+                    )
+            );
+        }
+
     }
+
+    public void setMuleClient(String ip, int port) {
+        if (this.muleClient == null) {
+            this.muleClient = new MuleClient(ip, port);
+        }
+    }
+
+    public void setMuleServer(int port, String key) {
+        if (this.muleServer == null) {
+            this.muleServer = new MuleServer(this, port, key);
+        }
+    }
+
+    public MuleClient getMuleClient() {
+        return muleClient;
+    }
+
+    public MuleServer getMuleServer() {
+        return muleServer;
+    }
+
+    public ScriptMode getMode() {
+        return mode;
+    }
+
+    public void setMode(ScriptMode mode) {
+        this.mode = mode;
+    }
+
+    public MuleHandler getMuleHandler() {
+        return muleHandler;
+    }
+
+    public RandomManager getRandomManager() {
+        return randomManager;
+    }
+
+    public MuleLocation getMuleLocation() {
+        return muleLocation;
+    }
+
+    public void setMuleLocation(MuleLocation muleLocation) {
+        this.muleLocation = muleLocation;
+    }
+
+    public boolean hasToMule() {
+        if (!hasToMule) {
+            return false;
+        }
+        for (Reward r : Arrays.stream(Reward.values()).filter(Reward::shouldMule).collect(Collectors.toList())) {
+            if (getDB().getInventory().contains(r.getID())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void shouldMule(boolean bool) {
+        this.hasToMule = bool;
+    }
+
 }
