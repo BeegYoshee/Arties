@@ -43,4 +43,11 @@ public class HCheckSlider extends HPanel {
         return enabled.isSelected();
     }
 
+    public HCheckButton getDisabledButton() {
+    	return disabled;
+    }
+    
+    public HCheckButton getEnabledButton() {
+    	return enabled;
+    }
 }

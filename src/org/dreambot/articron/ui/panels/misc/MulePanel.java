@@ -2,9 +2,11 @@ package org.dreambot.articron.ui.panels.misc;
 
 import org.dreambot.articron.swing.HFrame;
 import org.dreambot.articron.swing.HPanel;
+import org.dreambot.articron.swing.child.HCheckSliderText;
 import org.dreambot.articron.swing.child.HComboBoxText;
 import org.dreambot.articron.swing.child.HLabel;
 import org.dreambot.articron.swing.child.HTextField;
+import org.dreambot.articron.swing.special.BorderPanel;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -25,9 +27,13 @@ public class MulePanel extends HPanel {
 		HPanel grid = new HPanel();
 		grid.setLayout(new GridLayout(0, 1, 0, 15));
 		add(grid, BorderLayout.CENTER);
-		grid.add(name = new HTextField("Mule-Name: ", HFrame.ELEMENT_BG, HFrame.FOREGROUND));
-		grid.add(location = new HComboBoxText<>("Location: ", new String[] { "MTA Upstairs", "AL-Kharid" }));
-		grid.add(time = new HComboBoxText<>("When: ", new String[] { "After each", "After all" }));
+		BorderPanel b = new BorderPanel(new HCheckSliderText("Enable muling"));
+		grid.add(b);
+		
+		
+	b.add(name = new HTextField("Mule-Name: ", HFrame.ELEMENT_BG, HFrame.FOREGROUND));
+		b.add(location = new HComboBoxText<>("Location: ", new String[] { "MTA Upstairs", "AL-Kharid" }));
+		b.add(time = new HComboBoxText<>("When: ", new String[] { "After each", "After all" }));
 
 		TitledBorder border = new TitledBorder(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 1), "Settings");
 		border.setTitleColor(HFrame.FOREGROUND);

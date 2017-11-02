@@ -18,7 +18,7 @@ public class MiscellaneousPanel extends HPanel {
 		split.add(mulePanel = new MulePanel(), BorderLayout.CENTER);
 		split.add(roomPanel = new SelectionPanel(), BorderLayout.SOUTH);
 		roomPanel.setBorder(new EmptyBorder(0, 2, 2, 0));
-		add(notificationPanel = new NotificationPanel(), BorderLayout.EAST);
+	//	add(notificationPanel = new NotificationPanel(), BorderLayout.EAST);
 	}
 
 	public MulePanel getMulePanel() {

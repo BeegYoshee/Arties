@@ -13,14 +13,21 @@ import java.awt.*;
 
 public class HCheckSliderText extends HPanel {
     private HCheckSlider slider;
-
+    private HLabel label;
+    
     public HCheckSliderText(String text) {
         setLayout(new BorderLayout());
-        add(new HLabel(text), BorderLayout.CENTER);
+        add(label = new HLabel(text), BorderLayout.CENTER);
         add(slider = new HCheckSlider(50), BorderLayout.EAST);
     }
 
     public HCheckSlider getSlider() {
         return slider;
     }
+    
+    public HLabel getLabel() {
+    	return label;
+    }
+    
+    
 }

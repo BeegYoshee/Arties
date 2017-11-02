@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
  * Time: 19:33
  */
 
-class HCheckButton extends JToggleButton {
+public class HCheckButton extends JToggleButton {
 
     /*
      * 1 = Left
