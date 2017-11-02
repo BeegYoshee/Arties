@@ -41,7 +41,9 @@ import org.dreambot.articron.fw.handlers.MTAHandler;
 import org.dreambot.articron.fw.handlers.MuleHandler;
 import org.dreambot.articron.net.MuleClient;
 import org.dreambot.articron.net.MuleServer;
-import org.dreambot.articron.util.MTAPaint;
+import org.dreambot.articron.paint.Graphics2DPaint;
+import org.dreambot.articron.paint.impl.MTAPaint;
+import org.dreambot.articron.paint.impl.MulePaint;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -54,7 +56,7 @@ public class ScriptContext {
 
     private final MethodContext CONTEXT;
     private final MTAHandler mtaHandler;
-    private final MTAPaint MTAPaint;
+    private Graphics2DPaint MTAPaint;
     private MuleServer muleServer;
     private MuleClient muleClient;
     private MuleLocation muleLocation;
@@ -65,6 +67,7 @@ public class ScriptContext {
     private RandomManager randomManager;
 
     private boolean shouldMule = false;
+    private boolean shouldPaint = false;
 
     public ScriptContext(MethodContext methodContext, ScriptManifest manifest, RandomManager randomManager) {
         CONTEXT = methodContext;
@@ -87,7 +90,7 @@ public class ScriptContext {
     }
 
 
-    public MTAPaint getPaint() {
+    public Graphics2DPaint getPaint() {
         return MTAPaint;
     }
 
@@ -115,7 +118,9 @@ public class ScriptContext {
     public void loadMode(ScriptMode mode) {
         Manager.cleanRoot();
         this.mode = mode;
+        shouldPaint = true;
         if (mode == ScriptMode.MULE) {
+            MTAPaint = new MulePaint(this);
             System.out.println("Loading mule nodes");
             Manager.commit(
 
@@ -170,6 +175,11 @@ public class ScriptContext {
             );
         }
         if (mode == ScriptMode.WORKER) {
+            if (shouldMule) {
+                Manager.addNodeLoader(this::hasToMule, ScriptMode.LOOKING_FOR_MULE);
+                Manager.addNodeLoader(() -> !hasToMule() &&
+                        !getDB().getTrade().isOpen(), ScriptMode.WORKER);
+            }
             getPaint().loadRewards();
             Manager.commit(
 
@@ -392,4 +402,11 @@ public class ScriptContext {
         this.shouldMule = bool;
     }
 
+    public boolean isShouldPaint() {
+        return shouldPaint;
+    }
+
+    public void setShouldPaint(boolean shouldPaint) {
+        this.shouldPaint = shouldPaint;
+    }
 }

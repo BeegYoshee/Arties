@@ -96,6 +96,7 @@ public class InformationPanel extends HPanel {
          System.out.println("Mule-time: "+main.getMiscellaneousPanel().getMulePanel().getMuleTime());
          **/
         main.getContext().loadMode(ScriptMode.WORKER);
+
         main.dispose();
     }
 

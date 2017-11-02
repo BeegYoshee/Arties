@@ -4,7 +4,6 @@ import org.dreambot.articron.CronScript;
 import org.dreambot.articron.data.MTARune;
 import org.dreambot.articron.data.MuleLocation;
 import org.dreambot.articron.data.ScriptMode;
-import org.dreambot.articron.fw.Manager;
 import org.dreambot.articron.loader.HImageLoader;
 import org.dreambot.articron.net.protocol.PacketType;
 import org.dreambot.articron.swing.HFrame;
@@ -37,9 +36,6 @@ public class ModePicker extends HFrame {
                     script.getContext().getMuleClient().getConnection().getStream().sendUTF(
                             script.getContext().getDB().getLocalPlayer().getName(),
                             PacketType.HANDSHAKE);
-                    Manager.addNodeLoader(() -> script.getContext().hasToMule(), ScriptMode.LOOKING_FOR_MULE);
-                    Manager.addNodeLoader(() -> !script.getContext().hasToMule() &&
-                            !script.getContext().getDB().getTrade().isOpen(), ScriptMode.WORKER);
                 }
             } catch (IOException io) {
                     System.out.println("Failed sending UTF to server");
@@ -60,7 +56,7 @@ public class ModePicker extends HFrame {
             script.getContext().getMuleServer().start();
 
             script.getContext().loadMode(ScriptMode.MULE);
-
+            script.getContext().setShouldPaint(true);
             this.dispose();
         });
 

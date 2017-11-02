@@ -10,15 +10,12 @@ import org.dreambot.api.wrappers.widgets.message.Message;
 import org.dreambot.articron.behaviour.EnableRunning;
 import org.dreambot.articron.data.*;
 import org.dreambot.articron.fw.Manager;
-import org.dreambot.articron.net.protocol.PacketType;
 import org.dreambot.articron.net.protocol.TCPStream;
 import org.dreambot.articron.ui.ModePicker;
-import org.dreambot.articron.ui.ProfilePicker;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.SocketException;
-import java.util.Arrays;
 
 /**
  * Author: Articron
@@ -88,36 +85,39 @@ public class ArtiMTA extends CronScript implements MessageListener {
 
     @Override
     public void onPaint(Graphics g) {
-
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
-        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_TEXT_LCD_CONTRAST, 100);
-        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-        g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-        g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,RenderingHints.VALUE_STROKE_PURE);
-        getContext().getPaint().onPaint(g2);
+        if (getContext().isShouldPaint()) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_LCD_CONTRAST, 100);
+            g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+            g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+            g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+            getContext().getPaint().onPaint(g2);
+        }
     }
 
     @Override
     public void onGameMessage(Message message) {
-        if (getContext().getMuleServer().isRunning() && message.getMessage().equals("Accepted trade.")) {
-            System.out.println("[MULE] : Mule request finished, removing from queue.");
-            getContext().getMTA().getMuleQueue().finishedCurrentRequest();
-        }
-
-        if (getContext().getMuleClient().isConnected() && message.getMessage().equals("Accepted trade."))  {
-            getContext().getMuleClient().getConnection().getStream().blockStream(TCPStream.OUTGOING_TRAFIIC, false);
-        }
-
         if (getContext().getMTA().getCurrentRoom() == MTARoom.ALCHEMY) {
             getContext().getMTA().getAlchemyHandler().setFoundItem(
                     AlchemyDrop.forMessage(message.getMessage()), getGameObjects().closest("Cupboard").getTile());
         }
-        if (!getContext().getMTA().isOutside()) {
+
+        else if (getContext().getMuleServer().isRunning() && message.getMessage().equals("Accepted trade.")) {
+            System.out.println("[MULE] : Mule request finished, removing from queue.");
+            getContext().getMTA().getMuleQueue().finishedCurrentRequest();
+        }
+
+        else if (getContext().getMuleClient().isConnected() && message.getMessage().equals("Accepted trade."))  {
+            getContext().getMuleClient().getConnection().getStream().blockStream(TCPStream.OUTGOING_TRAFIIC, false);
+        }
+
+
+        else if (!getContext().getMTA().isOutside()) {
             if (message.getMessage().contains("You do not have enough") && message.getMessage().contains("to cast this spell")) {
                 MethodProvider.log("[SCRIPT STOP]");
                 MethodProvider.log("Reason: ");

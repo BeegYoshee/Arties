@@ -1,11 +1,12 @@
-package org.dreambot.articron.util;
+package org.dreambot.articron.paint.impl;
 
 
 import org.dreambot.api.methods.skills.Skill;
-import org.dreambot.api.script.listener.PaintListener;
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.data.Reward;
 import org.dreambot.articron.fw.ScriptContext;
+import org.dreambot.articron.paint.Graphics2DPaint;
+import org.dreambot.articron.util.ScriptMath;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -19,11 +20,10 @@ import java.util.List;
  * Author: Articron
  * Date:   18/10/2017.
  */
-public class MTAPaint {
+public class MTAPaint extends Graphics2DPaint {
 
     private ScriptContext context;
     private List<BufferedImage> rewardSprites;
-    private String status;
 
     private final Color HEADER_COLOR = new Color(46,204,113);
 
@@ -54,7 +54,7 @@ public class MTAPaint {
             g.drawString(getScriptString(), 25, 60);
             g.setFont(new Font("Arial", Font.PLAIN, 11));
             g.drawString("Time running: " + context.getRuntime(), 10, 90);
-            g.drawString("Status: " + status, 10, 110);
+            g.drawString("Status: " + getStatus(), 10, 110);
             g.drawString("Magic XP: " + context.getDB().getSkillTracker().getGainedExperience(Skill.MAGIC) +
                     "(+" + context.getDB().getSkillTracker().getGainedLevels(Skill.MAGIC) + ")", 10, 130);
             g.setColor(Color.WHITE);
@@ -118,7 +118,4 @@ public class MTAPaint {
                 context.getMTA().getRewardQueue().getCurrentReward().getRequiredPoints(room)) * 1.5f);
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }
