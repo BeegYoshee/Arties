@@ -19,6 +19,9 @@ import org.dreambot.articron.behaviour.mta.graveyard.children.ConvertBones;
 import org.dreambot.articron.behaviour.mta.graveyard.children.DepositFruit;
 import org.dreambot.articron.behaviour.mta.graveyard.children.EatFruit;
 import org.dreambot.articron.behaviour.mta.graveyard.children.LootBones;
+import org.dreambot.articron.behaviour.mta.mule_interactions.GiveLoot;
+import org.dreambot.articron.behaviour.mta.mule_interactions.RequestMule;
+import org.dreambot.articron.behaviour.mta.mule_interactions.TradeMule;
 import org.dreambot.articron.behaviour.mta.outside.OutsideGroup;
 import org.dreambot.articron.behaviour.mta.outside.children.BuyReward;
 import org.dreambot.articron.behaviour.mta.outside.children.OpenShop;
@@ -36,7 +39,6 @@ import org.dreambot.articron.data.Reward;
 import org.dreambot.articron.data.ScriptMode;
 import org.dreambot.articron.fw.handlers.MTAHandler;
 import org.dreambot.articron.fw.handlers.MuleHandler;
-import org.dreambot.articron.fw.nodes.NodeGroup;
 import org.dreambot.articron.net.MuleClient;
 import org.dreambot.articron.net.MuleServer;
 import org.dreambot.articron.util.MTAPaint;
@@ -62,7 +64,7 @@ public class ScriptContext {
     private ScriptMode mode;
     private RandomManager randomManager;
 
-    private boolean hasToMule = false;
+    private boolean shouldMule = false;
 
     public ScriptContext(MethodContext methodContext, ScriptManifest manifest, RandomManager randomManager) {
         CONTEXT = methodContext;
@@ -99,7 +101,7 @@ public class ScriptContext {
 
 
     public void shutdown() {
-        Manager.removeAllGroups();
+        Manager.cleanRoot();
         Manager.commit(
                 new LeaveRoom().when(
                         () -> !getMTA().isOutside()
@@ -111,7 +113,7 @@ public class ScriptContext {
     }
 
     public void loadMode(ScriptMode mode) {
-        Manager.removeAllGroups();
+        Manager.cleanRoot();
         this.mode = mode;
         if (mode == ScriptMode.MULE) {
             System.out.println("Loading mule nodes");
@@ -142,21 +144,33 @@ public class ScriptContext {
                             new AcceptTrade().when(
                                     () -> getDB().getTrade().isOpen() && getMuleHandler().getTrading().offerComplete()
                                     && getMuleHandler().getTrading().isOfferingMTAReward()
+                                    && getMTA().getMuleQueue().getCurrentRequest().getBotName().equals(getDB().getTrade().getTradingWith())
                             )
             ));
         }
 
         if (mode == ScriptMode.LOOKING_FOR_MULE) {
-            new WalkToMulingSpot().when(
-                    () -> !getMuleHandler().isInMulingSpot() && hasToMule()
+            Manager.commit(
+                    new WalkToMulingSpot().when(
+                        () -> !getMuleHandler().isInMulingSpot() && hasToMule()
+                    ),
+                    new RequestMule().when(
+                            () -> getMuleHandler().isInMulingSpot() && hasToMule() && !getMuleHandler().isMuleHere()
+                    ),
+                    new TradeMule().when(
+                            () -> getMuleHandler().isInMulingSpot() && hasToMule() && getMuleHandler().isMuleHere()
+                            && !getDB().getTrade().isOpen()
+                    ),
+                    new GiveLoot().when(
+                            () -> getDB().getTrade().isOpen(1) && getMTA().getRewardsInInventory().length != 0
+                    ),
+                    new AcceptTrade().when(
+                            () -> getDB().getTrade().isOpen() && getMTA().getRewardsInInventory().length == 0
+                    )
             );
         }
         if (mode == ScriptMode.WORKER) {
             getPaint().loadRewards();
-
-            Manager.commit(
-
-            );
             Manager.commit(
 
                     new SwitchStave().when(
@@ -312,15 +326,21 @@ public class ScriptContext {
 
     }
 
+    public void setMuleClient(int port) {
+        if (this.muleClient == null) {
+            this.muleClient = new MuleClient(null,port,this);
+        }
+    }
+
     public void setMuleClient(String ip, int port) {
         if (this.muleClient == null) {
-            this.muleClient = new MuleClient(ip, port);
+            this.muleClient = new MuleClient(ip, port,this);
         }
     }
 
     public void setMuleServer(int port, String key) {
         if (this.muleServer == null) {
-            this.muleServer = new MuleServer(this, port, key);
+            this.muleServer = new MuleServer(this, port, key, getDB().getLocalPlayer().getName());
         }
     }
 
@@ -357,7 +377,7 @@ public class ScriptContext {
     }
 
     public boolean hasToMule() {
-        if (!hasToMule) {
+        if (!shouldMule) {
             return false;
         }
         for (Reward r : Arrays.stream(Reward.values()).filter(Reward::shouldMule).collect(Collectors.toList())) {
@@ -369,7 +389,7 @@ public class ScriptContext {
     }
 
     public void shouldMule(boolean bool) {
-        this.hasToMule = bool;
+        this.shouldMule = bool;
     }
 
 }

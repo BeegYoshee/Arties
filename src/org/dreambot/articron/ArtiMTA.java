@@ -10,11 +10,15 @@ import org.dreambot.api.wrappers.widgets.message.Message;
 import org.dreambot.articron.behaviour.EnableRunning;
 import org.dreambot.articron.data.*;
 import org.dreambot.articron.fw.Manager;
+import org.dreambot.articron.net.protocol.PacketType;
+import org.dreambot.articron.net.protocol.TCPStream;
+import org.dreambot.articron.ui.ModePicker;
 import org.dreambot.articron.ui.ProfilePicker;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.Arrays;
 
 /**
  * Author: Articron
@@ -34,11 +38,9 @@ public class ArtiMTA extends CronScript implements MessageListener {
     public void onStart() {
         setContext();
         Manager.init(getContext());
-        getContext().shouldMule(true);
-        getContext().setMuleLocation(MuleLocation.MTA_UPSTAIRS);
         getRandomManager().enableSolver(RandomEvent.LOGIN);
-        getContext().setMuleClient("",43594);
-        Manager.addNodeLoader(() -> getContext().hasToMule(), ScriptMode.LOOKING_FOR_MULE);
+
+
        /* getContext().setMuleServer(43594,"secret-key");
         getContext().getMuleServer().start();
         getContext().getMuleHandler().getTrading().addRunesToTrade(MTARune.COSMIC_RUNE,100);
@@ -51,7 +53,7 @@ public class ArtiMTA extends CronScript implements MessageListener {
                         () -> !getWalking().isRunEnabled() && getWalking().getRunEnergy() >= getWalking().getRunThreshold()
                 )
         );
-        new ProfilePicker(this);
+        new ModePicker(this);
         //getContext().loadMode(ScriptMode.WORKER);
     }
 
@@ -68,6 +70,13 @@ public class ArtiMTA extends CronScript implements MessageListener {
                     } catch (IOException ignored) {
                     }
                 }
+            }
+        }
+        if (getContext().getMuleClient() != null) {
+            if (getContext().getMuleClient().isConnected()) {
+                try {
+                    getContext().getMuleClient().disconnect();
+                } catch (IOException ignored) {}
             }
         }
     }
@@ -95,6 +104,15 @@ public class ArtiMTA extends CronScript implements MessageListener {
 
     @Override
     public void onGameMessage(Message message) {
+        if (getContext().getMuleServer().isRunning() && message.getMessage().equals("Accepted trade.")) {
+            System.out.println("[MULE] : Mule request finished, removing from queue.");
+            getContext().getMTA().getMuleQueue().finishedCurrentRequest();
+        }
+
+        if (getContext().getMuleClient().isConnected() && message.getMessage().equals("Accepted trade."))  {
+            getContext().getMuleClient().getConnection().getStream().blockStream(TCPStream.OUTGOING_TRAFIIC, false);
+        }
+
         if (getContext().getMTA().getCurrentRoom() == MTARoom.ALCHEMY) {
             getContext().getMTA().getAlchemyHandler().setFoundItem(
                     AlchemyDrop.forMessage(message.getMessage()), getGameObjects().closest("Cupboard").getTile());
@@ -110,12 +128,10 @@ public class ArtiMTA extends CronScript implements MessageListener {
                 getContext().shutdown();
             }
         }
-        if (getContext().getMode() == ScriptMode.MULE) {
-            if (message.getMessage().equals("Accepted trade.")) {
-                getContext().getMTA().getMuleQueue().finishedCurrentRequest();
-            }
-        }
+
+
     }
+
 
     @Override
     public void onPlayerMessage(Message message) {

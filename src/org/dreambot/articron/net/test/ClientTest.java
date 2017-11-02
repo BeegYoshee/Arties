@@ -8,7 +8,7 @@ import java.io.IOException;
 public class ClientTest {
 
     public static void main(String... args) {
-        MuleClient client = new MuleClient(43594);
+        MuleClient client = new MuleClient(43594,null);
         if (client.connect()) {
             try {
 

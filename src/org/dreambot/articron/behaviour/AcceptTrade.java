@@ -17,16 +17,9 @@ public class AcceptTrade extends Node {
 
     @Override
     public int execute(ScriptContext context) {
-        if (context.getDB().getTrade().getTradingWith()
-                .equals(context.getMTA().getMuleQueue().getCurrentRequest().getBotName())) {
             if (context.getDB().getTrade().acceptTrade()) {
                 MethodProvider.sleep(1000);
             }
-        } else {
-            if (context.getDB().getTrade().declineTrade()) {
-                MethodProvider.sleep(1000);
-            }
-        }
         return 1000;
     }
 }

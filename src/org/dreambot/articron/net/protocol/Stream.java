@@ -34,11 +34,12 @@ public class Stream {
             this.output.close();
             this.socket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("[Client] : Unexpected stream close");
         }
     }
 
     public void blockStream(TCPStream stream, boolean blocked) {
+        System.out.println("BLOCK REQUEST | " + stream.name() + " -> " + blocked);
         this.blockedOut = (stream == TCPStream.OUTGOING_TRAFIIC || stream == TCPStream.ALL_TRAFFIC) && blocked;
         this.blockedIn = (stream == TCPStream.INBOUND_TRAFFIC || stream == TCPStream.ALL_TRAFFIC) && blocked;
     }

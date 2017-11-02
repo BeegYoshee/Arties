@@ -1,5 +1,6 @@
 package org.dreambot.articron.net;
 
+import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.net.client.ClientConnection;
 import org.dreambot.articron.net.protocol.Stream;
 
@@ -15,14 +16,16 @@ public class MuleClient {
     private Socket socket;
     private ClientConnection connection;
     private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private ScriptContext ctx;
 
-    public MuleClient(int port) {
-        this(null,port);
+    public MuleClient(int port, ScriptContext ctx) {
+        this(null,port,ctx);
     }
 
-    public MuleClient(String ip, int port) {
+    public MuleClient(String ip, int port, ScriptContext ctx) {
         this.ip = (ip == null || ip.equals("")) ? "localhost" : ip;
         this.port = port;
+        this.ctx = ctx;
     }
 
     public boolean isConnected() {
@@ -32,7 +35,7 @@ public class MuleClient {
     public boolean connect() {
         try {
             socket = new Socket(ip, port);
-            connection = new ClientConnection(new Stream(socket),this);
+            connection = new ClientConnection(new Stream(socket),this, ctx);
             executor.submit(connection);
             return true;
         } catch (IOException e) {
@@ -42,9 +45,10 @@ public class MuleClient {
     }
 
 
-    public void disconnect() {
+    public void disconnect() throws IOException{
         connection.setActive(false);
         connection.getStream().close();
+        socket.close();
         executor.shutdown();
     }
 

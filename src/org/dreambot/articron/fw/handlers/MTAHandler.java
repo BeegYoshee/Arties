@@ -8,6 +8,7 @@ import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.api.wrappers.items.Item;
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.data.MTAStave;
+import org.dreambot.articron.data.Reward;
 import org.dreambot.articron.feature.MuleQueue;
 import org.dreambot.articron.feature.RewardQueue;
 import org.dreambot.articron.fw.ScriptContext;
@@ -18,6 +19,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Author: Articron
@@ -126,6 +129,18 @@ public class MTAHandler {
     public boolean isInsideMTABuilding() {
         MTA_BUILDING_TILE.setZ(context.getDB().getLocalPlayer().getZ());
         return MTA_BUILDING_TILE.distance() < 15 && context.getDB().getMap().canReach(MTA_BUILDING_TILE);
+    }
+
+    public Item[] getRewardsInInventory() {
+       List<Item> items = new ArrayList<>();
+       for (Reward r : Arrays.stream(Reward.values()).filter(Reward::shouldMule).collect(Collectors.toList())) {
+           for (Item item : context.getDB().getInventory().all(Objects::nonNull)) {
+               if (item.getID() == r.getID()) {
+                   items.add(item);
+               }
+           }
+       }
+       return items.toArray(new Item[items.size()]);
     }
 
     public boolean enterMTABuilding() {

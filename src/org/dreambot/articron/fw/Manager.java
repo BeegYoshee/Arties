@@ -51,7 +51,7 @@ public class Manager {
         return null;
     }
 
-    public static void removeAllGroups() {
+    public static void cleanRoot() {
         BASE_GROUP.clear();
     }
 

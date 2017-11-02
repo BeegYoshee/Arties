@@ -1,5 +1,6 @@
 package org.dreambot.articron.net.client;
 
+import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.net.Connection;
 import org.dreambot.articron.net.MuleClient;
 import org.dreambot.articron.net.protocol.PacketType;
@@ -12,10 +13,12 @@ public class ClientConnection extends Connection {
 
     private String privateKey;
     private MuleClient client;
+    private ScriptContext ctx;
 
-    public ClientConnection(Stream stream, MuleClient client) {
+    public ClientConnection(Stream stream, MuleClient client, ScriptContext ctx) {
         super(stream);
         this.client = client;
+        this.ctx = ctx;
     }
 
     @Override
@@ -34,6 +37,7 @@ public class ClientConnection extends Connection {
 
                     case MULE_IS_COMING:
                         String muleName = getStream().readUTF();
+                        ctx.getMuleHandler().setMuleName(muleName);
                         System.out.println("A mule is coming for me: " + muleName);
                         getStream().blockStream(TCPStream.OUTGOING_TRAFIIC,true);
                         break;

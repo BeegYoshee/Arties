@@ -9,14 +9,20 @@ public class MuleHandler {
 
     private ScriptContext context;
     private TradingUtil tradeUtil;
+    private String muleName;
+
 
     public MuleHandler(ScriptContext context) {
         this.context = context;
         tradeUtil = new TradingUtil(context);
     }
 
-    public boolean shouldMule() {
+    public boolean hasAWorkerWaiting() {
         return context.getMTA().getMuleQueue().getCurrentRequest() != null;
+    }
+
+    public Player getMule() {
+        return context.getDB().getPlayers().closest(p -> p.getName().equals(muleName));
     }
 
     public Player getWorker() {
@@ -46,6 +52,10 @@ public class MuleHandler {
        return getWorker() != null;
     }
 
+    public boolean isMuleHere() {
+        return getMule() != null;
+    }
+
     public boolean shouldHop() {
         return context.getDB().getClient().getCurrentWorld() != context.getMTA().getMuleQueue().getCurrentRequest().getWorld();
     }
@@ -60,5 +70,9 @@ public class MuleHandler {
 
     public TradingUtil getTrading() {
         return tradeUtil;
+    }
+
+    public void setMuleName(String name) {
+        this.muleName = name;
     }
 }

@@ -1,4 +1,4 @@
-package org.dreambot.articron.behaviour.mta;
+package org.dreambot.articron.behaviour.mta.mule_interactions;
 
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.articron.fw.ScriptContext;
@@ -24,8 +24,9 @@ public class RequestMule extends Node {
         MuleClient client = context.getMuleClient();
         if (client.isConnected()) {
             try {
-                client.getConnection().getStream().sendSecureUTF(context.getDB().getLocalPlayer().getName(),
+                client.getConnection().getStream().sendSecureUTF(Integer.toString(context.getDB().getClient().getCurrentWorld()),
                         client.getConnection().getKey(), PacketType.NEED_A_MULE);
+                MethodProvider.sleep(5000);
             } catch (IOException e) {
                 MethodProvider.log("Failed calling the mule... logging out");
                 return -1;

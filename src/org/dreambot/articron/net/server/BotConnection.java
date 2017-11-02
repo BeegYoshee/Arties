@@ -42,7 +42,7 @@ public class BotConnection extends Connection {
                         case NEED_A_MULE:
                             int world = Integer.parseInt(readSecureUTF());
                             System.out.println(this.botName + " needs a trade @W" + world);
-                            getStream().sendUTF("iPrototype",PacketType.MULE_IS_COMING);
+                            getStream().sendUTF(server.getMuleName(),PacketType.MULE_IS_COMING);
                             script.getMTA().getMuleQueue().addMuleRequest(new MuleRequest(world,this.botName));
                             System.out.println(this.botName + " has been added to the queue");
                             break;

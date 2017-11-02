@@ -19,15 +19,18 @@ public class MuleServer {
     private String key;
     private ScriptContext ctx;
     private Poller poller;
+    private String muleName;
     private ExecutorService executor = Executors.newFixedThreadPool(10);
 
     private List<BotConnection> bots = new ArrayList<>();
 
-    public MuleServer(ScriptContext ctx, int port, String key) {
+    public MuleServer(ScriptContext ctx, int port, String key, String muleName) {
         this.port = port;
         this.ctx = ctx;
         this.key = key;
+        this.muleName = muleName;
     }
+
 
     public MuleServer(ScriptContext ctx) {
         this.ctx = ctx;
@@ -118,4 +121,7 @@ public class MuleServer {
         return key;
     }
 
+    public String getMuleName() {
+        return muleName;
+    }
 }
