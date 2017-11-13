@@ -1,7 +1,7 @@
 package org.dreambot.articron.swing.child;
 
 import org.dreambot.articron.swing.HFrame;
-import org.dreambot.articron.ui.panels.room.DisplayObject;
+import org.dreambot.articron.ui.bot.panels.room.DisplayObject;
 
 import javax.swing.*;
 import java.awt.*;

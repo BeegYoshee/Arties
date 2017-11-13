@@ -1,4 +1,4 @@
-package org.dreambot.articron.ui.panels.reward;
+package org.dreambot.articron.ui.bot.panels.reward;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

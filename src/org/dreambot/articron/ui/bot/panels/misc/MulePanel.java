@@ -1,4 +1,4 @@
-package org.dreambot.articron.ui.panels.misc;
+package org.dreambot.articron.ui.bot.panels.misc;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -35,11 +35,9 @@ public class MulePanel extends HPanel {
 
 		slider = new HCheckSliderText("Enable Muling");
 		slider.getSlider().getEnabledButton().addActionListener(listener -> {
-			System.out.println(slider.getSlider().isToggledActive());
 			toggle(slider.getSlider().isToggledActive());
 		});
 		slider.getSlider().getDisabledButton().addActionListener(listener -> {
-			System.out.println("A "+!(slider.getSlider().isToggledActive()));
 			toggle(!slider.getSlider().isToggledActive());
 		});
 		grid.add(slider);

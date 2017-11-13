@@ -1,4 +1,4 @@
-package org.dreambot.articron.ui.panels.misc;
+package org.dreambot.articron.ui.bot.panels.misc;
 
 import org.dreambot.articron.swing.HFrame;
 import org.dreambot.articron.swing.HPanel;

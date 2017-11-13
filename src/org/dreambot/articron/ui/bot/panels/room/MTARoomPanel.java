@@ -1,4 +1,4 @@
-package org.dreambot.articron.ui.panels.room;
+package org.dreambot.articron.ui.bot.panels.room;
 
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.data.MTASpell;
@@ -6,7 +6,7 @@ import org.dreambot.articron.data.MTAStave;
 import org.dreambot.articron.loader.HImageLoader;
 import org.dreambot.articron.swing.HPanel;
 import org.dreambot.articron.swing.child.HImageComboBox;
-import org.dreambot.articron.ui.panels.reward.RewardIcon;
+import org.dreambot.articron.ui.bot.panels.reward.RewardIcon;
 
 import javax.swing.*;
 import javax.swing.border.Border;

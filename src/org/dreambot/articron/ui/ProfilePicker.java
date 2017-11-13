@@ -9,6 +9,7 @@ import org.dreambot.articron.swing.HPanel;
 import org.dreambot.articron.swing.child.HButton;
 import org.dreambot.articron.swing.child.HComboBox;
 import org.dreambot.articron.swing.child.HLabel;
+import org.dreambot.articron.ui.bot.MainUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ProfilePicker extends HFrame {
-
+	
     ProfileLoader loader;
 
     public ProfilePicker(CronScript cs) {

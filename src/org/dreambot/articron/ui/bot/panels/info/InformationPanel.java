@@ -1,4 +1,4 @@
-package org.dreambot.articron.ui.panels.info;
+package org.dreambot.articron.ui.bot.panels.info;
 
 import org.dreambot.articron.data.MTARoom;
 import org.dreambot.articron.data.Reward;
@@ -7,7 +7,7 @@ import org.dreambot.articron.profile.ProfileLoader;
 import org.dreambot.articron.swing.HFrame;
 import org.dreambot.articron.swing.HPanel;
 import org.dreambot.articron.swing.child.*;
-import org.dreambot.articron.ui.MainUI;
+import org.dreambot.articron.ui.bot.MainUI;
 
 import javax.swing.*;
 import javax.swing.border.Border;

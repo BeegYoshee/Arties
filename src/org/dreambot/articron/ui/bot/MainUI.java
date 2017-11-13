@@ -1,13 +1,13 @@
-package org.dreambot.articron.ui;
+package org.dreambot.articron.ui.bot;
 
 import org.dreambot.articron.fw.ScriptContext;
 import org.dreambot.articron.loader.HImageLoader;
 import org.dreambot.articron.swing.HFrame;
 import org.dreambot.articron.swing.child.HTabbedPane;
-import org.dreambot.articron.ui.panels.info.InformationPanel;
-import org.dreambot.articron.ui.panels.misc.MiscellaneousPanel;
-import org.dreambot.articron.ui.panels.reward.RewardPanel;
-import org.dreambot.articron.ui.panels.room.RoomPanel;
+import org.dreambot.articron.ui.bot.panels.info.InformationPanel;
+import org.dreambot.articron.ui.bot.panels.misc.MiscellaneousPanel;
+import org.dreambot.articron.ui.bot.panels.reward.RewardPanel;
+import org.dreambot.articron.ui.bot.panels.room.RoomPanel;
 
 import javax.swing.*;
 import java.awt.*;

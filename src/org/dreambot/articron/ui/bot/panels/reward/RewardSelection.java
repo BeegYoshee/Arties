@@ -1,4 +1,4 @@
-package org.dreambot.articron.ui.panels.reward;
+package org.dreambot.articron.ui.bot.panels.reward;
 
 import org.dreambot.articron.data.Reward;
 import org.dreambot.articron.loader.HImageLoader;
