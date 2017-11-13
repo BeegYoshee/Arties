@@ -21,17 +21,16 @@ import org.dreambot.articron.swing.child.HTextField;
 
 public class MulePanel extends HPanel {
 
-	private HTextField name;
-	private HComboBoxText<String> location, time;
+	private HTextField name, ip, port;
+	private HComboBoxText<String> location;
 
 	private HCheckSliderText slider;
 
 	public MulePanel() {
 		setLayout(new BorderLayout());
 		add(new HLabel("Muling", JLabel.CENTER, new Font("Arial", Font.PLAIN, 17)), BorderLayout.NORTH);
-		HPanel grid = new HPanel();
-		grid.setLayout(new GridLayout(0, 1, 0, 3));
-		add(grid, BorderLayout.CENTER);
+		HPanel grid = new HPanel(new GridLayout(0, 1, 0, 3));
+		HPanel main = new HPanel(new BorderLayout());
 
 		slider = new HCheckSliderText("Enable Muling");
 		slider.getSlider().getEnabledButton().addActionListener(listener -> {
@@ -42,10 +41,15 @@ public class MulePanel extends HPanel {
 		});
 		grid.add(slider);
 
-		grid.add(name = new HTextField("Mule-Name: ", HFrame.ELEMENT_BG, HFrame.FOREGROUND));
 		grid.add(location = new HComboBoxText<>("Location: ", new String[] { "MTA Upstairs", "AL-Kharid" }));
-		grid.add(time = new HComboBoxText<>("When: ", new String[] { "After each", "After all" }));
+		grid.add(name = new HTextField("Mule-Name: ", HFrame.ELEMENT_BG, HFrame.FOREGROUND));
+		grid.add(ip = new HTextField("Mule-IP:        ", HFrame.ELEMENT_BG, HFrame.FOREGROUND));
+		grid.add(port = new HTextField("Mule-Port:    ", HFrame.ELEMENT_BG, HFrame.FOREGROUND));
 
+		main.add(grid, BorderLayout.CENTER);
+		main.add(slider, BorderLayout.NORTH);
+		add(main, BorderLayout.CENTER);
+		
 		TitledBorder border = new TitledBorder(BorderFactory.createLineBorder(HFrame.ELEMENT_BG, 1), "Settings");
 		border.setTitleColor(HFrame.FOREGROUND);
 		border.setTitleFont(new Font("Arial", Font.PLAIN, 15));
@@ -55,8 +59,9 @@ public class MulePanel extends HPanel {
 
 	private void toggle(boolean status) {
 		name.getTextField().setEnabled(status);
+		ip.getTextField().setEnabled(status);
+		port.getTextField().setEnabled(status);
 		location.getComboBox().setEnabled(status);
-		time.getComboBox().setEnabled(status);
 	}
 
 	public boolean isMulingActive() {
@@ -67,11 +72,15 @@ public class MulePanel extends HPanel {
 		return name.toString();
 	}
 
-	public int getMuleLocation() {
-		return location.getComboBox().getSelectedIndex();
+	public String getMuleIP() {
+		return ip.toString();
 	}
 
-	public int getMuleTime() {
-		return time.getComboBox().getSelectedIndex();
+	public String getMulePort() {
+		return port.toString();
+	}
+
+	public int getMuleLocation() {
+		return location.getComboBox().getSelectedIndex();
 	}
 }
