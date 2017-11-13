@@ -24,7 +24,7 @@ public class BorderPanel extends JPanel {
         OptionPanel componentBorder = new OptionPanel(slider, this, BorderFactory.createEtchedBorder());
         slider.getSlider().getEnabledButton().addActionListener(listener -> {
         	System.out.println("HI");
-            boolean enable = slider.getSlider().isSelected();
+            boolean enable = slider.getSlider().isToggledActive();
             setPanelEnabled(this, enable);
         });
         setBorder(new CompoundBorder(new EmptyBorder(10, 10, 10, 10), componentBorder));

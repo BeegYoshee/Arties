@@ -57,7 +57,7 @@ public class MainUI extends HFrame {
 		return roomPanel;
 	}
 
-	public static void main(String[] args) {// coughs at HIMageloader
+	public static void main(String[] args) {
 		new MainUI("ArtiMTA PRO", HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"),null);
 	}
 

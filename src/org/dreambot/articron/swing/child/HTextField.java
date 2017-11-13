@@ -25,6 +25,10 @@ public class HTextField extends HPanel {
 		textField.setBorder(
 				BorderFactory.createCompoundBorder(textField.getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 	}
+	
+	public JTextField getTextField() {
+		return textField;
+	}
 
 	@Override
 	public String toString() {

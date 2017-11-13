@@ -1,11 +1,16 @@
 package org.dreambot.articron.swing.special;
 
-import org.dreambot.articron.ui.panels.reward.RewardItem;
-
-import javax.swing.*;
+import java.awt.Component;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JComponent;
+import javax.swing.JList;
+import javax.swing.TransferHandler;
+
+import org.dreambot.articron.swing.child.HBin;
 
 /**
  * Created by: Niklas Date: 19.10.2017 Alias: Dinh Time: 18:54
@@ -36,7 +41,7 @@ public class HListItemTransferHandler<T> extends TransferHandler {
 	public boolean importData(TransferSupport info) {
 		if (!canImport(info)) {
 			return false;
-		}
+		} 
 
 		JList<Object> target = (JList<Object>) info.getComponent();
 		JList.DropLocation dl = (JList.DropLocation) info.getDropLocation();
@@ -65,13 +70,7 @@ public class HListItemTransferHandler<T> extends TransferHandler {
 		if (moveAllowed)
 			cleanup(c, action == MOVE, false);
 		else
-			try {
-				if (data.getTransferData(GenericTransferable.FLAVOR) instanceof RewardItem) {
-					cleanup(c, true, true);
-				}
-			} catch (UnsupportedFlavorException | IOException e) {
-				e.printStackTrace();
-			}
+            cleanup(c, true, true);
 	}
 
 	private void cleanup(JComponent component, boolean remove, boolean bin) {
