@@ -10,6 +10,7 @@ import org.dreambot.articron.swing.HFrame;
 import org.dreambot.articron.swing.HPanel;
 import org.dreambot.articron.swing.child.HButton;
 import org.dreambot.articron.swing.child.HLabel;
+import org.dreambot.articron.ui.mule.MuleUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,11 +23,14 @@ public class ModePicker extends HFrame {
     HButton muleButton;
     HButton mtaButton;
 
-    public ModePicker(CronScript script) {
-        super("ArtiMTA PRO", HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"));
+    private CronScript script;
 
+    public ModePicker(CronScript script) {
+
+        super("ArtiMTA PRO", HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"));
+        this.script = script;
         mtaButton = new HButton("Bot", (e) -> {
-            script.getContext().shouldMule(true);
+            /*script.getContext().shouldMule(true);
             script.getContext().setMuleLocation(MuleLocation.AL_KHARID_CHEST);
 
             script.getContext().setMuleClient(43594);
@@ -40,14 +44,17 @@ public class ModePicker extends HFrame {
             } catch (IOException io) {
                     System.out.println("Failed sending UTF to server");
             }
-
+                */
             new ProfilePicker(script);
             this.dispose();
         });
 
         muleButton = new HButton("Mule",(e) -> {
-
-            script.getContext().setMuleLocation(MuleLocation.AL_KHARID_CHEST);
+            System.out.println("hey");
+            new MuleUI("ArtiMTA Muling",
+                    HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"),
+                    script != null ? script.getContext() : null);
+            /**script.getContext().setMuleLocation(MuleLocation.AL_KHARID_CHEST);
             script.getContext().getMuleHandler().getTrading().addRunesToTrade(MTARune.LAW_RUNE,500);
             script.getContext().getMuleHandler().getTrading().addRunesToTrade(MTARune.COSMIC_RUNE, 300);
             script.getContext().getMuleHandler().getTrading().addRunesToTrade(MTARune.NATURE_RUNE,1000);
@@ -56,7 +63,7 @@ public class ModePicker extends HFrame {
             script.getContext().getMuleServer().start();
 
             script.getContext().loadMode(ScriptMode.MULE);
-            script.getContext().setShouldPaint(true);
+            script.getContext().setShouldPaint(true);**/
             this.dispose();
         });
 

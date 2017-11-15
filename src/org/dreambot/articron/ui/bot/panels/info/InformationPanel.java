@@ -1,8 +1,10 @@
 package org.dreambot.articron.ui.bot.panels.info;
 
 import org.dreambot.articron.data.MTARoom;
+import org.dreambot.articron.data.MuleLocation;
 import org.dreambot.articron.data.Reward;
 import org.dreambot.articron.data.ScriptMode;
+import org.dreambot.articron.net.protocol.PacketType;
 import org.dreambot.articron.profile.ProfileLoader;
 import org.dreambot.articron.swing.HFrame;
 import org.dreambot.articron.swing.HPanel;
@@ -84,17 +86,26 @@ public class InformationPanel extends HPanel {
         for(MTARoom r : main.getMiscellaneousPanel().getRoomPanel().getRoomOrder()) {
             main.getContext().getMTA().getRoomOrder().add(r);
         }
-        /**
-         System.out.println("E-MAIL: "+main.getMiscellaneousPanel().getNotificationPanel().getEMail());
-         System.out.println("Alias: "+main.getMiscellaneousPanel().getNotificationPanel().getAlias());
-         System.out.println("Levelup: "+main.getMiscellaneousPanel().getNotificationPanel().getLevel().getSlider().isSelected());
-         System.out.println("Reward: "+main.getMiscellaneousPanel().getNotificationPanel().getReward().getSlider().isSelected());
-         System.out.println("Muled: "+main.getMiscellaneousPanel().getNotificationPanel().getAction().getSlider().isSelected());
-         System.out.println("End: "+main.getMiscellaneousPanel().getNotificationPanel().getEnd().getSlider().isSelected());
-         System.out.println("Mule-name: "+main.getMiscellaneousPanel().getMulePanel().getMuleName());
-         System.out.println("Mule-loc: "+main.getMiscellaneousPanel().getMulePanel().getMuleLocation());
-         System.out.println("Mule-time: "+main.getMiscellaneousPanel().getMulePanel().getMuleTime());
-         **/
+        if (main.getMiscellaneousPanel().getMulePanel().isMulingActive()) {
+			main.getContext().shouldMule(true);
+            main.getContext().setMuleLocation(MuleLocation.values()[main.getMiscellaneousPanel().getMulePanel().getMuleLocation()]);
+            String ip = main.getMiscellaneousPanel().getMulePanel().getMuleIP();
+            int port = Integer.parseInt(main.getMiscellaneousPanel().getMulePanel().getMulePort());
+            if (ip.equals("localhost") || ip.equals("")) {
+                main.getContext().setMuleClient(port);
+            } else {
+                main.getContext().setMuleClient(ip,port);
+            }
+            try {
+                if (main.getContext().getMuleClient().connect()) {
+                    main.getContext().getMuleClient().getConnection().getStream().sendUTF(
+                            main.getContext().getDB().getLocalPlayer().getName(),
+                            PacketType.HANDSHAKE);
+                }
+            } catch (IOException io) {
+                System.out.println("Failed connecting to mule!");
+            }
+		}
         main.getContext().loadMode(ScriptMode.WORKER);
 
         main.dispose();

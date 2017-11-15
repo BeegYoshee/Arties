@@ -177,8 +177,15 @@ public class MTAHandler {
         }
         if (loc.getZ() == 1) {
             GameObject stairs = context.getDB().getGameObjects().closest(10776);
-            if (stairs != null && stairs.interact("Climb-down")) {
-                MethodProvider.sleepUntil(() -> context.getDB().getLocalPlayer().getZ() == 0, ScriptMath.getTravelTime(stairs,0.5D));
+            if (stairs != null) {
+                if (stairs.distance() > 6) {
+                    if (context.getDB().getWalking().walk(stairs)) {
+                        MethodProvider.sleepUntil(() -> stairs.distance() <= 6, ScriptMath.getTravelTime(stairs,0.5D));
+                    }
+                }
+                if (stairs.interact("Climb-down")) {
+                    MethodProvider.sleepUntil(() -> context.getDB().getLocalPlayer().getZ() == 0, ScriptMath.getTravelTime(stairs, 0.5D));
+                }
             }
         }
         if (loc.getZ() == 0) {

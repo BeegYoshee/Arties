@@ -19,7 +19,7 @@ public class MuleUI extends HFrame {
 
 	private MuleRunePanel rewardPanel;
 
-	public MuleUI(MainUI mainUI, String text, BufferedImage icon, ScriptContext context) {
+	public MuleUI(String text, BufferedImage icon, ScriptContext context) {
 		super(text, icon);
 		this.context = context;
 		contentPane.setPreferredSize(new Dimension(500, 250));
@@ -32,7 +32,7 @@ public class MuleUI extends HFrame {
 	}
 
 	public static void main(String[] args) {
-		new MuleUI(null, "ArtiMTA PRO s", HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"), null);
+		new MuleUI("ArtiMTA PRO s", HImageLoader.loadImage("https://i.imgur.com/SGA9et4.png"), null);
 	}
 
 	public ScriptContext getContext() {

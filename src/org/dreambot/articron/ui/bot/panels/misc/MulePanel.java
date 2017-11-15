@@ -42,10 +42,10 @@ public class MulePanel extends HPanel {
 		grid.add(slider);
 
 		grid.add(location = new HComboBoxText<>("Location: ", new String[] { "MTA Upstairs", "AL-Kharid" }));
-		grid.add(name = new HTextField("Mule-Name: ", HFrame.ELEMENT_BG, HFrame.FOREGROUND));
+		//grid.add(name = new HTextField("Mule-Name: ", HFrame.ELEMENT_BG, HFrame.FOREGROUND));
 		grid.add(ip = new HTextField("Mule-IP:        ", HFrame.ELEMENT_BG, HFrame.FOREGROUND));
 		grid.add(port = new HTextField("Mule-Port:    ", HFrame.ELEMENT_BG, HFrame.FOREGROUND));
-
+		ip.getTextField().setText("localhost");
 		main.add(grid, BorderLayout.CENTER);
 		main.add(slider, BorderLayout.NORTH);
 		add(main, BorderLayout.CENTER);
@@ -58,7 +58,7 @@ public class MulePanel extends HPanel {
 	}
 
 	private void toggle(boolean status) {
-		name.getTextField().setEnabled(status);
+		//name.getTextField().setEnabled(status);
 		ip.getTextField().setEnabled(status);
 		port.getTextField().setEnabled(status);
 		location.getComboBox().setEnabled(status);

@@ -5,7 +5,7 @@ import org.dreambot.articron.fw.ScriptContext;
 
 public abstract class CronScript extends AbstractScript {
 
-    private ScriptContext context;
+    private ScriptContext context = null;
 
     public void setContext() {
         context = new ScriptContext(this, getManifest(), getRandomManager());

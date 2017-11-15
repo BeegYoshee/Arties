@@ -25,7 +25,7 @@ import java.net.SocketException;
         category = Category.MINIGAME,
         name = "ArtiMTA PRO",
         author = "Articron",
-        version = 2.5D,
+        version = 1.0D,
         description = "Does the MTA minigame to obtain infinity items. 250-400K/hr, profitable magic xp! " +
         "See the script thread for user instructions!"
 )
@@ -107,17 +107,17 @@ public class ArtiMTA extends CronScript implements MessageListener {
                     AlchemyDrop.forMessage(message.getMessage()), getGameObjects().closest("Cupboard").getTile());
         }
 
-        else if (getContext().getMuleServer().isRunning() && message.getMessage().equals("Accepted trade.")) {
+        if (getContext().getMuleServer().isRunning() && message.getMessage().equals("Accepted trade.")) {
             System.out.println("[MULE] : Mule request finished, removing from queue.");
             getContext().getMTA().getMuleQueue().finishedCurrentRequest();
         }
 
-        else if (getContext().getMuleClient().isConnected() && message.getMessage().equals("Accepted trade."))  {
+        if (getContext().getMuleClient().isConnected() && message.getMessage().equals("Accepted trade."))  {
             getContext().getMuleClient().getConnection().getStream().blockStream(TCPStream.OUTGOING_TRAFIIC, false);
         }
 
 
-        else if (!getContext().getMTA().isOutside()) {
+        if (!getContext().getMTA().isOutside()) {
             if (message.getMessage().contains("You do not have enough") && message.getMessage().contains("to cast this spell")) {
                 MethodProvider.log("[SCRIPT STOP]");
                 MethodProvider.log("Reason: ");

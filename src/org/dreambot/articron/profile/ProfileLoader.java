@@ -3,8 +3,8 @@ package org.dreambot.articron.profile;
 import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.articron.data.*;
 import org.dreambot.articron.fw.ScriptContext;
-import org.dreambot.articron.ui.MainUI;
 import org.dreambot.articron.ui.ProfilePicker;
+import org.dreambot.articron.ui.bot.MainUI;
 
 import java.io.*;
 import java.util.ArrayList;

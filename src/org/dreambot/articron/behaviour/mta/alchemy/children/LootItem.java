@@ -37,6 +37,12 @@ public class LootItem extends Node {
         if (cupboard != null && cupboard.exists()) {
 
             if (cupboard.distance() > 2) {
+                if (context.getDB().getLocalPlayer().getY() >= 9647) {
+                    Point p = context.getDB().getMap().tileToMiniMap(context.getMTA().getAlchemyHandler().getAdjacentTile(cupboard));
+                    if (context.getDB().getMouse().click(p)) {
+                        MethodProvider.sleepUntil(() -> context.getDB().getLocalPlayer().getY() < 9647,3000);
+                    }
+                }
                if (cupboard.interact("Search")) {
                    MethodProvider.sleep(600);
                    MethodProvider.sleepUntil(() -> cupboard.getTile().distance() <= 1 || !context.getDB().getLocalPlayer().isMoving(), ScriptMath.getTravelTime(cupboard, 0.7D));

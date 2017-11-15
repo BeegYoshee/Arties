@@ -37,10 +37,10 @@ public class MuleRunePanel extends HPanel {
 		return dragList;
 	}
 
-	public MTARune[] getQueuedRewards() {
-		MTARune[] items = new MTARune[dragList.getModel().getSize()];
+	public MuleItem[] getQueuedRewards() {
+		MuleItem[] items = new MuleItem[dragList.getModel().getSize()];
 		for (int i = 0; i < items.length; i++) {
-			items[i] = dragList.getModel().getElementAt(i).getRune();
+			items[i] = dragList.getModel().getElementAt(i);
 		}
 		return items;
 	}
